@@ -9,8 +9,11 @@ public class ModCrafting
 {
 	public static void init()
 	{
-		GameRegistry.addRecipe(
-				new ShapedOreRecipe(new ItemStack(ModItems.overflowNullifier, 1, 0), new Object[]
+		GameRegistry.addRecipe(new ShapedOreRecipe(
+				new ItemStack(ModItems.overflowNullifier, 1, 0), new Object[]
 				{ " XX", " XX", "YZ ", 'X', "cobblestone", 'Y', "stickWood", 'Z', new ItemStack(Items.LAVA_BUCKET) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(
+				new ItemStack(ModItems.voidNullifier, 1, 0), new Object[]
+				{ "  X", " Y ", "Y  ", 'X', new ItemStack(Items.LAVA_BUCKET), 'Y', "stickWood" }));
 	}
 }

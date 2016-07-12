@@ -1,24 +1,23 @@
 package com.bartz24.usefulnullifiers.registry;
 
 import com.bartz24.usefulnullifiers.UsefulNullifiers;
-import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
 import com.bartz24.usefulnullifiers.items.OverflowNullifierItem;
+import com.bartz24.usefulnullifiers.items.VoidNullifierItem;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModItems
 {
 	public static Item overflowNullifier;
+	public static Item voidNullifier;
 
 	public static void init()
 	{
 		overflowNullifier = registerItem(new OverflowNullifierItem(
-				"overflowNullifier", "OverflowNullifier"));
+				"overflowNullifierItem", "OverflowNullifierItem"));
+		voidNullifier = registerItem(new VoidNullifierItem(
+				"voidNullifierItem", "VoidNullifierItem"));
 	}
 
 	private static Item registerItem(Item item, String name)

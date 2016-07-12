@@ -15,6 +15,7 @@ public class ModRenderers
 	public static void preInit()
 	{
 		registerItemRenderer(ModItems.overflowNullifier);
+		registerItemRenderer(ModItems.voidNullifier);
 	}
 	public static void init()
 	{

@@ -2,6 +2,8 @@ package com.bartz24.usefulnullifiers.items;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import com.bartz24.usefulnullifiers.References;
 import com.bartz24.usefulnullifiers.UsefulNullifiers;
 import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
@@ -26,7 +28,6 @@ public class OverflowNullifierItem extends Item
 {
 	public OverflowNullifierItem(String unlocalizedName, String registryName)
 	{
-		this.maxStackSize = 4;
 		this.setUnlocalizedName(References.ModID + "." + unlocalizedName);
 		setRegistryName(registryName);
 		this.setCreativeTab(ModCreativeTabs.tabMain);
@@ -41,7 +42,7 @@ public class OverflowNullifierItem extends Item
 		ItemStack invStack = inv.getStackInSlot(0);
 		Block block = invStack == null ? null
 				: Block.getBlockFromItem(invStack.getItem());
-		
+
 		RayTraceResult rayTrace = this.rayTrace(world, player, true);
 
 		if (rayTrace == null || block == null
@@ -50,19 +51,23 @@ public class OverflowNullifierItem extends Item
 			if (!world.isRemote)
 			{
 				player.openGui(UsefulNullifiers.instance,
-						ModGuiHandler.OverflowGUI, world, 0, 0, 0);
+						ModGuiHandler.OverflowGUI, world,
+						player.inventory.currentItem, 0, 0);
 			}
 		} else
 		{
 			BlockPos hitPos = rayTrace.getBlockPos();
 			EnumFacing blockHitSide = rayTrace.sideHit;
-			if (block.canPlaceBlockAt(world, hitPos.add(blockHitSide.getDirectionVec())) && (world.getBlockState(
-					hitPos.add(blockHitSide.getDirectionVec())) == null
-					|| world.getBlockState(
-							hitPos.add(blockHitSide.getDirectionVec()))
-							.getBlock().isReplaceable(world,
-									hitPos.add(blockHitSide.getDirectionVec()))))
-			{				
+			if (block.canPlaceBlockAt(world,
+					hitPos.add(blockHitSide.getDirectionVec()))
+					&& (world
+							.getBlockState(hitPos.add(
+									blockHitSide.getDirectionVec())) == null
+							|| world.getBlockState(
+									hitPos.add(blockHitSide.getDirectionVec()))
+									.getBlock().isReplaceable(world, hitPos.add(
+											blockHitSide.getDirectionVec()))))
+			{
 				world.playSound(player,
 						hitPos.add(blockHitSide.getDirectionVec()),
 						block.getSoundType().getPlaceSound(),
@@ -81,12 +86,21 @@ public class OverflowNullifierItem extends Item
 		}
 		return new ActionResult(EnumActionResult.SUCCESS, itemStack);
 	}
-	
+
 	public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer,
 			List list, boolean par4)
 	{
 		OverflowInventory inv = new OverflowInventory(stack);
-			list.add(TextFormatting.DARK_GRAY + "Stored Item: ");
-			list.add(TextFormatting.DARK_GRAY + (inv.getStackInSlot(0) == null ? "None" : inv.getStackInSlot(0).getDisplayName()));
+		list.add(TextFormatting.DARK_GRAY + "Stored Item: ");
+		list.add(TextFormatting.DARK_GRAY + (inv.getStackInSlot(0) == null
+				? "None" : inv.getStackInSlot(0).getDisplayName()));
+
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+		{
+			list.add(TextFormatting.DARK_GREEN
+					+ "Places blocks stored and destroys any extra items picked up of the same type.");
+		} else
+			list.add(TextFormatting.DARK_GREEN
+					+ "Hold LSHIFT for description.");
 	}
 }

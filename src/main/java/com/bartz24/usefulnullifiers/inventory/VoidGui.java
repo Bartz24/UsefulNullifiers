@@ -9,15 +9,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class OverflowGui extends GuiContainer
+public class VoidGui extends GuiContainer
 {
 
 	private EntityPlayer player;
-	private OverflowInventory inv;
+	private VoidInventory inv;
 
-	public OverflowGui(EntityPlayer entityPlayer, OverflowInventory inventory)
+	public VoidGui(EntityPlayer entityPlayer, VoidInventory inventory)
 	{
-		super(new OverflowContainer(entityPlayer, inventory, -1));
+		super(new VoidContainer(entityPlayer, inventory, -1));
 
 		this.player = entityPlayer;
 		this.inv = inventory;
@@ -43,15 +43,11 @@ public class OverflowGui extends GuiContainer
 		ItemStack stack = inv.getStackInSlot(0);
 		Block block = stack == null ? null
 				: Block.getBlockFromItem(stack.getItem());
-		String s = "Overflow Nullifier";
+		String s = inv.getDisplayName().getUnformattedText();
 		this.fontRendererObj.drawString(s,
 				88 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(
 				this.player.inventory.getDisplayName().getUnformattedText(), 8,
 				72, 4210752);
-		String s2 = (block == null ? "Not Placeable" : "Placeable");
-		this.fontRendererObj.drawString(s2,
-				this.xSize / 2 - this.fontRendererObj.getStringWidth(s2) / 2,
-				40, 4210752);
 	}
 }

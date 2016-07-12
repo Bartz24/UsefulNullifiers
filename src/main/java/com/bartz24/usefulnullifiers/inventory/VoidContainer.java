@@ -6,14 +6,14 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 
-public class OverflowContainer extends Container
+public class VoidContainer extends Container
 {
 	private final EntityPlayer player;
-	public final OverflowInventory inv;
+	public final VoidInventory inv;
 	private final int protectSlot;
 
-	public OverflowContainer(EntityPlayer entityPlayer,
-			OverflowInventory inventory, int protectedSlot)
+	public VoidContainer(EntityPlayer entityPlayer, VoidInventory inventory,
+			int protectedSlot)
 	{
 
 		this.player = entityPlayer;

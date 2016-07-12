@@ -1,0 +1,6 @@
+{
+  "parent":"usefulnullifiers:item/BaseItemModel",
+  "textures": {
+    "layer0":"usefulnullifiers:items/voidNullifier"
+  }
+}
