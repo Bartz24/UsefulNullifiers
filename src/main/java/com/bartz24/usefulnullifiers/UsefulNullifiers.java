@@ -42,7 +42,7 @@ public class UsefulNullifiers
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		//proxy
+		proxy.postInit(event);
 	}
 
 	public UsefulNullifiers()

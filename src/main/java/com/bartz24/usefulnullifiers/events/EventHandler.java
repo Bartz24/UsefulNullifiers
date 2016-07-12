@@ -15,12 +15,13 @@ public class EventHandler
 	public void onItemPickup(EntityItemPickupEvent event)
 	{
 		ItemStack stack = event.getItem().getEntityItem();
-		boolean success = false;
 		for (int i = 0; i < event.getEntityPlayer().inventory
 				.getSizeInventory(); i++)
 		{
-			if (stack == null || stack.stackSize==0)
+			if (stack == null || stack.stackSize == 0)
+			{
 				break;
+			}
 			ItemStack stackInv = event.getEntityPlayer().inventory
 					.getStackInSlot(i);
 
@@ -28,13 +29,10 @@ public class EventHandler
 					&& stackInv.getItem() == ModItems.overflowNullifier)
 			{
 				OverflowInventory inv = new OverflowInventory(stackInv);
-				fillOverflowInventory(inv, stack);
-				success=true;
+				stack = fillOverflowInventory(inv, stack);
 				inv.markDirty();
 			}
 		}
-		if(success)
-			stack.stackSize=0;
 	}
 
 	public static boolean canStacksMerge(ItemStack stack1, ItemStack stack2)
@@ -76,19 +74,20 @@ public class EventHandler
 		return mergeCount;
 	}
 
-	public static ItemStack fillOverflowInventory(IInventory inv, ItemStack stack)
+	public static ItemStack fillOverflowInventory(IInventory inv,
+			ItemStack stack)
 	{
 		if (inv != null)
 		{
 			for (int i = 0; i < inv.getSizeInventory(); i++)
 			{
 				ItemStack inside = inv.getStackInSlot(i);
-				if (stack == null || stack.stackSize <= 0 || inside == null
-						|| inside.stackSize <= 0)
+				if (stack == null || stack.stackSize <= 0)
 					return null;
 				if (canStacksMerge(inside, stack))
 				{
-					stack.stackSize -= mergeStacks(stack, inside, true);
+					mergeStacks(stack, inside, true);
+					stack.stackSize = 0;
 				}
 			}
 		}

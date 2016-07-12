@@ -31,6 +31,7 @@ public class OverflowNullifierItem extends Item
 		this.setUnlocalizedName(References.ModID + "." + unlocalizedName);
 		setRegistryName(registryName);
 		this.setCreativeTab(ModCreativeTabs.tabMain);
+		this.setMaxStackSize(1);
 	}
 
 	@Override
