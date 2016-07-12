@@ -1,5 +1,7 @@
 package com.bartz24.usefulnullifiers.items;
 
+import java.util.List;
+
 import com.bartz24.usefulnullifiers.References;
 import com.bartz24.usefulnullifiers.UsefulNullifiers;
 import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
@@ -7,8 +9,6 @@ import com.bartz24.usefulnullifiers.registry.ModCreativeTabs;
 import com.bartz24.usefulnullifiers.registry.ModGuiHandler;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,9 +19,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.ModelBakeEvent;
 
 public class OverflowNullifierItem extends Item
 {
@@ -81,5 +80,13 @@ public class OverflowNullifierItem extends Item
 			}
 		}
 		return new ActionResult(EnumActionResult.SUCCESS, itemStack);
+	}
+	
+	public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer,
+			List list, boolean par4)
+	{
+		OverflowInventory inv = new OverflowInventory(stack);
+			list.add(TextFormatting.DARK_GRAY + "Stored Item: ");
+			list.add(TextFormatting.DARK_GRAY + (inv.getStackInSlot(0) == null ? "None" : inv.getStackInSlot(0).getDisplayName()));
 	}
 }
