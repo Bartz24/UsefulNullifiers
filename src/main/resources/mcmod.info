@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
-  "version": "${version}",
+  "modid": "usefulnullifiers",
+  "name": "Useful Nullifiers",
+  "description": "Nullifiers to help get rid of all those items and fluids.",
+  "version": "1.0",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://github.com/Bartz24/UsefulNullifiers",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Bartz24"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
