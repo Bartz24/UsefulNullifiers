@@ -1,4 +1,7 @@
 item.usefulnullifiers.overflowNullifierItem.name=Portable Overflow Nullifier
-item.usefulnullifiers.voidNullifierItem.name=Portable Void Nullifier
+item.usefulnullifiers.voidNullifierItem.name=Portable Item Nullifier
+
+tile.usefulnullifiers.voidNullifierBlock.name=Item Nullifier
+tile.usefulnullifiers.fluidVoidNullifierBlock.name=Fluid Nullifier
 
 itemGroup.usefulnullifiers.tabMain=Useful Nullifiers

@@ -16,6 +16,8 @@ public class ModRenderers
 	{
 		registerItemRenderer(ModItems.overflowNullifier);
 		registerItemRenderer(ModItems.voidNullifier);
+		registerItemRenderer(Item.getItemFromBlock(ModBlocks.voidNullifierBlock));
+		registerItemRenderer(Item.getItemFromBlock(ModBlocks.fluidVoidNullifierBlock));
 	}
 	public static void init()
 	{

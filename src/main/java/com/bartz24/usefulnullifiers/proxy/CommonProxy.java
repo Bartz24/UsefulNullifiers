@@ -2,7 +2,9 @@ package com.bartz24.usefulnullifiers.proxy;
 
 import com.bartz24.usefulnullifiers.UsefulNullifiers;
 import com.bartz24.usefulnullifiers.events.EventHandler;
+import com.bartz24.usefulnullifiers.registry.ModBlocks;
 import com.bartz24.usefulnullifiers.registry.ModCrafting;
+import com.bartz24.usefulnullifiers.registry.ModEntities;
 import com.bartz24.usefulnullifiers.registry.ModGuiHandler;
 import com.bartz24.usefulnullifiers.registry.ModItems;
 
@@ -17,6 +19,7 @@ public class CommonProxy
 	public void preInit(FMLPreInitializationEvent e)
 	{
 		ModItems.init();
+		ModBlocks.init();
 	}
 	
 	public void init(FMLInitializationEvent e)
@@ -25,6 +28,8 @@ public class CommonProxy
 				new ModGuiHandler());
 		
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
+		
+		ModEntities.init();
 	}
 	
 	public void postInit(FMLPostInitializationEvent e)
