@@ -11,10 +11,12 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
-@Mod(modid = References.ModID, name = References.ModName, useMetadata = true)
+@Mod(modid = References.ModID, name = References.ModName, useMetadata = true, 
+	guiFactory = "com.bartz24.usefulnullifiers.config.ConfigGuiFactory")
 public class UsefulNullifiers
 {
-	@SidedProxy(clientSide = "com.bartz24.usefulnullifiers.proxy.ClientProxy", serverSide = "com.bartz24.usefulnullifiers.proxy.ServerProxy")
+	@SidedProxy(clientSide = "com.bartz24.usefulnullifiers.proxy.ClientProxy",
+			serverSide = "com.bartz24.usefulnullifiers.proxy.ServerProxy")
 	public static CommonProxy proxy;
 
 	@Mod.Instance

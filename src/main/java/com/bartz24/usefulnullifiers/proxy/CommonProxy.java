@@ -1,6 +1,7 @@
 package com.bartz24.usefulnullifiers.proxy;
 
 import com.bartz24.usefulnullifiers.UsefulNullifiers;
+import com.bartz24.usefulnullifiers.config.ConfigOptions;
 import com.bartz24.usefulnullifiers.events.EventHandler;
 import com.bartz24.usefulnullifiers.registry.ModBlocks;
 import com.bartz24.usefulnullifiers.registry.ModCrafting;
@@ -18,6 +19,7 @@ public class CommonProxy
 {
 	public void preInit(FMLPreInitializationEvent e)
 	{
+		ConfigOptions.loadConfigThenSave(e);
 		ModItems.init();
 		ModBlocks.init();
 	}
