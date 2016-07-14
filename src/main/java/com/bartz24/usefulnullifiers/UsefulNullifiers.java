@@ -15,8 +15,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 	guiFactory = "com.bartz24.usefulnullifiers.config.ConfigGuiFactory")
 public class UsefulNullifiers
 {
-	@SidedProxy(clientSide = "com.bartz24.usefulnullifiers.proxy.ClientProxy",
-			serverSide = "com.bartz24.usefulnullifiers.proxy.ServerProxy")
+	@SidedProxy(clientSide = "com.bartz24.usefulnullifiers.proxy.ClientProxy", serverSide = "com.bartz24.usefulnullifiers.proxy.ServerProxy")
 	public static CommonProxy proxy;
 
 	@Mod.Instance
