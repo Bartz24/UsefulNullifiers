@@ -19,10 +19,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class VoidNullifierItem extends Item
+public class FluidVoidNullifierItem extends Item
 {
 
-	public VoidNullifierItem(String unlocalizedName, String registryName)
+	public FluidVoidNullifierItem(String unlocalizedName, String registryName)
 	{
 		this.setUnlocalizedName(References.ModID + "." + unlocalizedName);
 		setRegistryName(registryName);
@@ -36,7 +36,7 @@ public class VoidNullifierItem extends Item
 	{
 		if (!world.isRemote)
 		{
-			player.openGui(UsefulNullifiers.instance, ModGuiHandler.VoidGUI,
+			player.openGui(UsefulNullifiers.instance, ModGuiHandler.FluidVoidGUI,
 					world, player.inventory.currentItem, 0, 0);
 		}
 		return new ActionResult(EnumActionResult.SUCCESS, itemStack);
@@ -48,7 +48,7 @@ public class VoidNullifierItem extends Item
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
 		{
-			list.add(TextFormatting.DARK_GREEN + "Destroys items put into it.");			
+			list.add(TextFormatting.DARK_GREEN + "Empties fluid containers put into it.");			
 		}
 		else
 			list.add(TextFormatting.DARK_GREEN + "Hold LSHIFT for description.");

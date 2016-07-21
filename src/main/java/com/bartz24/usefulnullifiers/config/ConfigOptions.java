@@ -15,6 +15,7 @@ public class ConfigOptions
 	public static Configuration config;
 	public static boolean enableOverflow;
 	public static boolean enablePortVoid;
+	public static boolean enablePortFluidVoid;
 	public static boolean enableVoid;
 	public static boolean enableFluidVoid;
 	
@@ -37,6 +38,8 @@ public class ConfigOptions
 		enableOverflow = config.get(Configuration.CATEGORY_GENERAL, "Enable Portable Overflow Nullifier (recipe)", true)
 				.getBoolean(true);
 		enablePortVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Portable Item Nullifier (recipe)", true)
+				.getBoolean(true);
+		enablePortFluidVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Portable Fluid Nullifier (recipe)", true)
 				.getBoolean(true);
 		enableVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Item Nullifier (recipe)", true)
 				.getBoolean(true);

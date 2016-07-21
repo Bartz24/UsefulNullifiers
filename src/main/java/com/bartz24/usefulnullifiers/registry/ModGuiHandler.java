@@ -1,5 +1,8 @@
 package com.bartz24.usefulnullifiers.registry;
 
+import com.bartz24.usefulnullifiers.inventory.FluidVoidContainer;
+import com.bartz24.usefulnullifiers.inventory.FluidVoidGui;
+import com.bartz24.usefulnullifiers.inventory.FluidVoidInventory;
 import com.bartz24.usefulnullifiers.inventory.OverflowContainer;
 import com.bartz24.usefulnullifiers.inventory.OverflowGui;
 import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
@@ -17,15 +20,18 @@ public class ModGuiHandler implements IGuiHandler
 {
 	public static final int OverflowGUI = 0;
 	public static final int VoidGUI = 1;
+	public static final int FluidVoidGUI = 2;
 
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world,
 			int x, int y, int z)
 	{
 		if (id == OverflowGUI)
-			return new OverflowContainer(player, new OverflowInventory(getStack(player)), x);
+			return new OverflowContainer(player, new OverflowInventory(getOverflowStack(player)), x);
 		else if (id == VoidGUI)
 			return new VoidContainer(player, new VoidInventory(), x);
+		else if (id == FluidVoidGUI)
+			return new FluidVoidContainer(player, new FluidVoidInventory(), x);
 		return null;
 	}
 
@@ -34,14 +40,16 @@ public class ModGuiHandler implements IGuiHandler
 			int x, int y, int z)
 	{
 		if (id == OverflowGUI)
-			return new OverflowGui(player, new OverflowInventory(getStack(player)));
+			return new OverflowGui(player, new OverflowInventory(getOverflowStack(player)));
 		else if (id == VoidGUI)
 			return new VoidGui(player, new VoidInventory());
+		else if (id == FluidVoidGUI)
+			return new FluidVoidGui(player, new FluidVoidInventory());
 
 		return null;
 	}
 
-	static ItemStack getStack(EntityPlayer p) {
+	static ItemStack getOverflowStack(EntityPlayer p) {
         if (p.getHeldItemMainhand() != null
                 && p.getHeldItemMainhand().getItem() instanceof OverflowNullifierItem) {
             return p.getHeldItemMainhand();

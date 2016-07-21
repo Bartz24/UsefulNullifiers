@@ -18,6 +18,11 @@ public class ModCrafting
 					{ " XX", " XX", "YZ ", 'X', "cobblestone", 'Y', "stickWood", 'Z', new ItemStack(Items.LAVA_BUCKET) }));
 		if (ConfigOptions.enablePortVoid)
 			GameRegistry.addRecipe(new ShapedOreRecipe(
+					new ItemStack(ModItems.fluidVoidNullifier, 1, 0),
+					new Object[]
+					{ "  X", " YZ", "Y  ", 'X', new ItemStack(Items.ENDER_PEARL), 'Y', "stickWood", 'Z', new ItemStack(Items.BUCKET) }));
+		if (ConfigOptions.enablePortVoid)
+			GameRegistry.addRecipe(new ShapedOreRecipe(
 					new ItemStack(ModItems.voidNullifier, 1, 0), new Object[]
 					{ "  X", " Y ", "Y  ", 'X', new ItemStack(Items.LAVA_BUCKET), 'Y', "stickWood" }));
 		if (ConfigOptions.enableVoid)
