@@ -1,6 +1,7 @@
 package com.bartz24.usefulnullifiers.registry;
 
 import com.bartz24.usefulnullifiers.UsefulNullifiers;
+import com.bartz24.usefulnullifiers.blocks.EnergyVoidNullifierBlock;
 import com.bartz24.usefulnullifiers.blocks.FluidVoidNullifierBlock;
 import com.bartz24.usefulnullifiers.blocks.VoidNullifierBlock;
 
@@ -13,6 +14,7 @@ public class ModBlocks
 {
 	public static Block voidNullifierBlock;
 	public static Block fluidVoidNullifierBlock;
+	public static Block energyVoidNullifierBlock;
 	
 	public static void init()
 	{
@@ -20,6 +22,8 @@ public class ModBlocks
 				"voidNullifierBlock", "VoidNullifierBlock", 6F, 6F, SoundType.STONE));
 		fluidVoidNullifierBlock = registerBlock(new FluidVoidNullifierBlock(Material.ROCK,
 				"fluidVoidNullifierBlock", "FluidVoidNullifierBlock", 6F, 6F, SoundType.STONE));
+		energyVoidNullifierBlock = registerBlock(new EnergyVoidNullifierBlock(Material.ROCK,
+				"energyVoidNullifierBlock", "EnergyVoidNullifierBlock", 6F, 6F, SoundType.STONE));
 	}
 	
 	public static Block registerBlock(Block block, String name)

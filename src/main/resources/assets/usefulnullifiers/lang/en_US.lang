@@ -4,5 +4,6 @@ item.usefulnullifiers.fluidVoidNullifierItem.name=Portable Fluid Nullifier
 
 tile.usefulnullifiers.voidNullifierBlock.name=Item Nullifier
 tile.usefulnullifiers.fluidVoidNullifierBlock.name=Fluid Nullifier
+tile.usefulnullifiers.energyVoidNullifierBlock.name=Energy Nullifier
 
 itemGroup.usefulnullifiers.tabMain=Useful Nullifiers

@@ -49,9 +49,7 @@ public class FluidVoidNullifierBlock extends BlockContainer
 
 	public void addInformation(ItemStack stack, EntityPlayer player,
 			List list, boolean par4)
-	{
-		OverflowInventory inv = new OverflowInventory(stack);
-		
+	{		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
 		{
 			list.add(TextFormatting.DARK_GREEN + "Destroys fluids put into it. Cannot be interacted with, has to be given fluids.");			

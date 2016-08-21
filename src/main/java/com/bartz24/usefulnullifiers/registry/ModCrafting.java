@@ -2,6 +2,7 @@ package com.bartz24.usefulnullifiers.registry;
 
 import com.bartz24.usefulnullifiers.config.ConfigOptions;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -34,5 +35,10 @@ public class ModCrafting
 					new ItemStack(ModBlocks.fluidVoidNullifierBlock),
 					new Object[]
 					{ "XXX", "XYX", "XXX", 'X', "stone", 'Y', new ItemStack(Items.ENDER_PEARL) }));
+		if (ConfigOptions.enableEnergyVoid)
+			GameRegistry.addRecipe(new ShapedOreRecipe(
+					new ItemStack(ModBlocks.energyVoidNullifierBlock),
+					new Object[]
+					{ "XXX", "XYX", "XXX", 'X', "stone", 'Y', new ItemStack(Blocks.REDSTONE_BLOCK) }));
 	}
 }

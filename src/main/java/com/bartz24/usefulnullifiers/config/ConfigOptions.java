@@ -18,6 +18,7 @@ public class ConfigOptions
 	public static boolean enablePortFluidVoid;
 	public static boolean enableVoid;
 	public static boolean enableFluidVoid;
+	public static boolean enableEnergyVoid;
 	
 	public static List<IConfigElement> getConfigElements()
 	{
@@ -44,6 +45,8 @@ public class ConfigOptions
 		enableVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Item Nullifier (recipe)", true)
 				.getBoolean(true);
 		enableFluidVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Fluid Nullifier (recipe)", true)
+				.getBoolean(true);
+		enableEnergyVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Energy Nullifier (recipe)", true)
 				.getBoolean(true);
 		config.save();
 	}
