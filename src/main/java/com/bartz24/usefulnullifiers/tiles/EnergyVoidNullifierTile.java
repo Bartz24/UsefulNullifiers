@@ -15,7 +15,8 @@ import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList(value = {@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "IC2"),
         @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2")})
+        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2"),
+        @Optional.Interface(iface = "net.minecraft.util.ITickable", modid = "IC2")})
 public class EnergyVoidNullifierTile extends TileEntity
 		implements IEnergyReceiver, IEnergySink, IEnergyTile, ITickable
 {

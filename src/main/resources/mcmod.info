@@ -3,7 +3,7 @@
   "modid": "usefulnullifiers",
   "name": "Useful Nullifiers",
   "description": "Nullifiers to help get rid of all those items and fluids.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "mcversion": "${mcversion}",
   "url": "https://github.com/Bartz24/UsefulNullifiers",
   "updateUrl": "",
