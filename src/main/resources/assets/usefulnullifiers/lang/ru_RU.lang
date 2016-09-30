@@ -1,0 +1,10 @@
+Перевод от FTB_lag. Translate by FTB_lag.
+item.usefulnullifiers.overflowNullifierItem.name=Портативный Переполненный Обнулятор
+item.usefulnullifiers.voidNullifierItem.name=Портативный Предметный Обнулятор
+item.usefulnullifiers.fluidVoidNullifierItem.name=Портативный Жидкостный Обнулятор
+
+tile.usefulnullifiers.voidNullifierBlock.name=Предметный Обнулятор
+tile.usefulnullifiers.fluidVoidNullifierBlock.name=Жидкостный Обнулятор
+tile.usefulnullifiers.energyVoidNullifierBlock.name=Энергетический Обнулятор
+
+itemGroup.usefulnullifiers.tabMain=Useful Nullifiers
