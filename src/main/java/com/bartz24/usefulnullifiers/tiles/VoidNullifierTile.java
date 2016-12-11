@@ -15,7 +15,7 @@ public class VoidNullifierTile extends TileEntity implements IItemHandler
 	@Override
 	public ItemStack getStackInSlot(int index)
 	{
-		return null;
+		return ItemStack.field_190927_a;
 	}
 
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, net.minecraft.util.EnumFacing facing)
@@ -40,12 +40,17 @@ public class VoidNullifierTile extends TileEntity implements IItemHandler
 	@Override
 	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
 	{
-		return null;
+		return ItemStack.field_190927_a;
 	}
 
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate)
 	{
-		return null;
+		return ItemStack.field_190927_a;
+	}
+
+	@Override
+	public int getSlotLimit(int slot) {
+		return 64;
 	}
 }

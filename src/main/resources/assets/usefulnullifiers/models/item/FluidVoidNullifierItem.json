@@ -1,6 +1,6 @@
 {
-  "parent":"usefulnullifiers:item/BaseItemModel",
+  "parent":"item/handheld_rod",
   "textures": {
-    "layer0":"usefulnullifiers:items/fluidVoidNullifier"
+    "layer0":"usefulnullifiers:items/fluidvoidnullifier"
   }
 }

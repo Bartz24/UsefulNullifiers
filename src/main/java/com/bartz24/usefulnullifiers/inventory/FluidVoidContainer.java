@@ -51,7 +51,7 @@ public class FluidVoidContainer extends Container
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot)
 	{
-		ItemStack previous = null;
+		ItemStack previous = ItemStack.field_190927_a;
 		Slot slot = this.inventorySlots.get(fromSlot);
 
 		if (slot != null && slot.getHasStack())
@@ -62,21 +62,21 @@ public class FluidVoidContainer extends Container
 			if (fromSlot < 1)
 			{
 				if (!this.mergeItemStack(current, 1, 37, true))
-					return null;
+					return ItemStack.field_190927_a;
 			} else
 			{
 				if (!this.mergeItemStack(current, 0, 1, false))
-					return null;
+					return ItemStack.field_190927_a;
 			}
 
-			if (current.stackSize == 0)
-				slot.putStack((ItemStack) null);
+			if (current.func_190916_E() == 0)
+				slot.putStack(ItemStack.field_190927_a);
 			else
 				slot.onSlotChanged();
 
-			if (current.stackSize == previous.stackSize)
-				return null;
-			slot.onPickupFromSlot(playerIn, current);
+			if (current.func_190916_E() == previous.func_190916_E())
+				return ItemStack.field_190927_a;
+			slot.onSlotChanged();
 		}
 		return previous;
 	}
@@ -87,9 +87,9 @@ public class FluidVoidContainer extends Container
 
 		if (!player.worldObj.isRemote)
 		{
-			ItemStack itemstack = this.inv.inventory[0];
+			ItemStack itemstack = this.inv.inventory.get(0);
 
-			if (itemstack != null)
+			if (!itemstack.func_190926_b())
 			{
 				player.dropItem(itemstack, false);
 			}

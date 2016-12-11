@@ -41,7 +41,7 @@ public class OverflowGui extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		ItemStack stack = inv.getStackInSlot(0);
-		Block block = stack == null ? null
+		Block block = stack.func_190926_b() ? null
 				: Block.getBlockFromItem(stack.getItem());
 		String s = "Overflow Nullifier";
 		this.fontRendererObj.drawString(s,

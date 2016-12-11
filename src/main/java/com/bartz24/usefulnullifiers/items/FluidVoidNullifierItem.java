@@ -31,15 +31,14 @@ public class FluidVoidNullifierItem extends Item
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack,
-			World world, EntityPlayer player, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
 		if (!world.isRemote)
 		{
 			player.openGui(UsefulNullifiers.instance, ModGuiHandler.FluidVoidGUI,
 					world, player.inventory.currentItem, 0, 0);
 		}
-		return new ActionResult(EnumActionResult.SUCCESS, itemStack);
+		return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 	}
 
 	public void addInformation(ItemStack stack, EntityPlayer player,

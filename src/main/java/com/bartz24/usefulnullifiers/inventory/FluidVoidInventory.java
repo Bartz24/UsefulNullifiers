@@ -6,61 +6,20 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fluids.IFluidHandler;
 
-public class FluidVoidInventory implements IFluidHandler, IInventory
+public class FluidVoidInventory implements IInventory
 {
 
-	ItemStack[] inventory = new ItemStack[1];
+	NonNullList<ItemStack> inventory = NonNullList.<ItemStack>func_191197_a(1, ItemStack.field_190927_a);
 
 	public FluidVoidInventory()
 	{
-	}
-
-	@Override
-	public int fill(EnumFacing from, FluidStack resource, boolean doFill)
-	{
-		return 0;
-	}
-
-	@Override
-	public FluidStack drain(EnumFacing from, FluidStack resource,
-			boolean doDrain)
-	{
-		return null;
-	}
-
-	@Override
-	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain)
-	{
-		return null;
-	}
-
-	@Override
-	public boolean canFill(EnumFacing from, Fluid fluid)
-	{
-		return true;
-	}
-
-	@Override
-	public boolean canDrain(EnumFacing from, Fluid fluid)
-	{
-		return false;
-	}
-
-	@Override
-	public FluidTankInfo[] getTankInfo(EnumFacing from)
-	{
-		return null;
 	}
 
 	@Override
@@ -96,7 +55,7 @@ public class FluidVoidInventory implements IFluidHandler, IInventory
 	@Override
 	public ItemStack getStackInSlot(int index)
 	{
-		return inventory[index];
+		return inventory.get(index);
 	}
 
 	@Override
@@ -108,23 +67,23 @@ public class FluidVoidInventory implements IFluidHandler, IInventory
 	@Override
 	public ItemStack decrStackSize(int index, int count)
 	{
-		if (this.getStackInSlot(index) != null)
+		if (!this.getStackInSlot(index).func_190926_b())
 		{
 			ItemStack itemstack;
 
-			if (this.getStackInSlot(index).stackSize <= count)
+			if (this.getStackInSlot(index).func_190916_E() <= count)
 			{
 				itemstack = this.getStackInSlot(index);
-				this.setInventorySlotContents(index, null);
+				this.setInventorySlotContents(index, ItemStack.field_190927_a);
 				this.markDirty();
 				return itemstack;
 			} else
 			{
 				itemstack = this.getStackInSlot(index).splitStack(count);
 
-				if (this.getStackInSlot(index).stackSize <= 0)
+				if (this.getStackInSlot(index).func_190916_E() <= 0)
 				{
-					this.setInventorySlotContents(index, null);
+					this.setInventorySlotContents(index, ItemStack.field_190927_a);
 				} else
 				{
 					this.setInventorySlotContents(index,
@@ -136,7 +95,7 @@ public class FluidVoidInventory implements IFluidHandler, IInventory
 			}
 		} else
 		{
-			return null;
+			return ItemStack.field_190927_a;
 		}
 	}
 
@@ -146,21 +105,21 @@ public class FluidVoidInventory implements IFluidHandler, IInventory
 		if (index < 0 || index >= this.getSizeInventory())
 			return;
 
-		if (stack != null && stack.stackSize > this.getInventoryStackLimit())
-			stack.stackSize = this.getInventoryStackLimit();
+		if (!stack.func_190926_b() && stack.func_190916_E() > this.getInventoryStackLimit())
+			stack.func_190920_e(this.getInventoryStackLimit());
 
-		if (stack != null && stack.stackSize == 0)
-			stack = null;
+		if (!stack.func_190926_b() && stack.func_190916_E() == 0)
+			stack = ItemStack.field_190927_a;
 
-		ItemStack emptyContainer = null;
-		if (stack != null)
+		ItemStack emptyContainer = ItemStack.field_190927_a;
+		if (!stack.func_190926_b())
 		{
 			FluidStack fluid = FluidUtil.getFluidContained(stack);
 			if (fluid != null)
 			{
 				emptyContainer = FluidUtil.tryEmptyContainer(stack,
 						new FluidTank(Integer.MAX_VALUE), fluid.amount, null,
-						true);
+						true).getResult();
 			}
 			if (stack.getItem() == Items.WATER_BUCKET)
 			{
@@ -170,22 +129,16 @@ public class FluidVoidInventory implements IFluidHandler, IInventory
 			{
 				emptyContainer = new ItemStack(Items.BUCKET);
 			}
-			if (stack.getItem() instanceof IFluidContainerItem
-					&& ((IFluidContainerItem) stack.getItem())
-							.getFluid(stack) != null)
+			if (stack.getItem() == Items.MILK_BUCKET)
 			{
-				emptyContainer = FluidUtil.tryEmptyContainer(stack,
-						new FluidTank(Integer.MAX_VALUE),
-						((IFluidContainerItem) stack.getItem())
-								.getFluid(stack).amount,
-						null, true);
+				emptyContainer = new ItemStack(Items.BUCKET);
 			}
 		}
 
-		if (emptyContainer != null)
-			this.inventory[index] = emptyContainer;
+		if (!emptyContainer.func_190926_b())
+			this.inventory.set(index, emptyContainer);
 		else
-			this.inventory[index] = stack;
+			this.inventory.set(index, stack);
 		this.markDirty();
 
 	}
@@ -243,4 +196,18 @@ public class FluidVoidInventory implements IFluidHandler, IInventory
 	{
 
 	}
+
+    public boolean func_191420_l()
+    {
+        for (ItemStack itemstack : this.inventory)
+        {
+            if (!itemstack.func_190926_b())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+	
 }

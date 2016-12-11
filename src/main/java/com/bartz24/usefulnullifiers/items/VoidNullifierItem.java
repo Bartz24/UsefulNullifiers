@@ -19,11 +19,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class VoidNullifierItem extends Item
-{
+public class VoidNullifierItem extends Item {
 
-	public VoidNullifierItem(String unlocalizedName, String registryName)
-	{
+	public VoidNullifierItem(String unlocalizedName, String registryName) {
 		this.setUnlocalizedName(References.ModID + "." + unlocalizedName);
 		setRegistryName(registryName);
 		this.setCreativeTab(ModCreativeTabs.tabMain);
@@ -31,26 +29,18 @@ public class VoidNullifierItem extends Item
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack,
-			World world, EntityPlayer player, EnumHand hand)
-	{
-		if (!world.isRemote)
-		{
-			player.openGui(UsefulNullifiers.instance, ModGuiHandler.VoidGUI,
-					world, player.inventory.currentItem, 0, 0);
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		if (!world.isRemote) {
+			player.openGui(UsefulNullifiers.instance, ModGuiHandler.VoidGUI, world, player.inventory.currentItem, 0, 0);
 		}
-		return new ActionResult(EnumActionResult.SUCCESS, itemStack);
+		return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 	}
 
-	public void addInformation(ItemStack stack, EntityPlayer player,
-			List list, boolean par4)
-	{
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
-		{
-			list.add(TextFormatting.DARK_GREEN + "Destroys items put into it.");			
-		}
-		else
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+			list.add(TextFormatting.DARK_GREEN + "Destroys items put into it.");
+		} else
 			list.add(TextFormatting.DARK_GREEN + "Hold LSHIFT for description.");
 	}
 }

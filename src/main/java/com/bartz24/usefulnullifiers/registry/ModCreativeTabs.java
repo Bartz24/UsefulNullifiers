@@ -2,6 +2,7 @@ package com.bartz24.usefulnullifiers.registry;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -12,9 +13,9 @@ public class ModCreativeTabs
 	{
 		@Override
 		@SideOnly(Side.CLIENT)
-		public Item getTabIconItem()
+		public ItemStack getTabIconItem()
 		{
-			return ModItems.overflowNullifier;
+			return new ItemStack(ModItems.overflowNullifier);
 		}
 	};
 }

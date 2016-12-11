@@ -1,8 +1,8 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "0": "usefulnullifiers:blocks/voidNullifier",
-        "particle": "usefulnullifiers:blocks/voidNullifier"
+        "0": "usefulnullifiers:blocks/voidnullifier",
+        "particle": "usefulnullifiers:blocks/voidnullifier"
     },
     "elements": [
         {
