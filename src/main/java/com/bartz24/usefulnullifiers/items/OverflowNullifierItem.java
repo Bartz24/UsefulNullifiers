@@ -39,7 +39,7 @@ public class OverflowNullifierItem extends Item {
 		ItemStack itemStack = player.getHeldItem(hand);
 		OverflowInventory inv = new OverflowInventory(itemStack);
 		ItemStack invStack = inv.getStackInSlot(0);
-		Block block = invStack.func_190926_b() ? Blocks.AIR : Block.getBlockFromItem(invStack.getItem());
+		Block block = invStack.isEmpty() ? Blocks.AIR : Block.getBlockFromItem(invStack.getItem());
 
 		RayTraceResult rayTrace = this.rayTrace(world, player, true);
 
@@ -62,7 +62,7 @@ public class OverflowNullifierItem extends Item {
 
 				if (!world.isRemote) {
 					world.setBlockState(hitPos.add(blockHitSide.getDirectionVec()),
-							block.onBlockPlaced(world, hitPos.add(blockHitSide.getDirectionVec()), blockHitSide,
+							block.getStateForPlacement(world, hitPos.add(blockHitSide.getDirectionVec()), blockHitSide,
 									(float) rayTrace.hitVec.xCoord, (float) rayTrace.hitVec.yCoord,
 									(float) rayTrace.hitVec.zCoord, invStack.getMetadata(), player),
 							3);
@@ -88,8 +88,8 @@ public class OverflowNullifierItem extends Item {
 	public String getItemStackDisplayName(ItemStack stack) {
 		OverflowInventory inv = new OverflowInventory(stack);
 		String name = TextFormatting.GREEN
-				+ (inv.getStackInSlot(0) == ItemStack.field_190927_a ? "None" : inv.getStackInSlot(0).getDisplayName()
-				+ " x " + inv.getStackInSlot(0).func_190916_E());
+				+ (inv.getStackInSlot(0) == ItemStack.EMPTY ? "None" : inv.getStackInSlot(0).getDisplayName()
+				+ " x " + inv.getStackInSlot(0).getCount());
 		return super.getItemStackDisplayName(stack) + " (" + name + TextFormatting.WHITE + ")";
 	}
 }

@@ -51,7 +51,7 @@ public class OverflowContainer extends Container
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot)
 	{
-		ItemStack previous = ItemStack.field_190927_a;
+		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(fromSlot);
 
 		if (slot != null && slot.getHasStack())
@@ -62,20 +62,20 @@ public class OverflowContainer extends Container
 			if (fromSlot < 1)
 			{
 				if (!this.mergeItemStack(current, 1, 37, true))
-					return ItemStack.field_190927_a;
+					return ItemStack.EMPTY;
 			} else
 			{
 				if (!this.mergeItemStack(current, 0, 1, false))
-					return ItemStack.field_190927_a;
+					return ItemStack.EMPTY;
 			}
 
-			if (current.func_190916_E() == 0)
-				slot.putStack(ItemStack.field_190927_a);
+			if (current.getCount() == 0)
+				slot.putStack(ItemStack.EMPTY);
 			else
 				slot.onSlotChanged();
 
-			if (current.func_190916_E() == previous.func_190916_E())
-				return ItemStack.field_190927_a;
+			if (current.getCount() == previous.getCount())
+				return ItemStack.EMPTY;
 			slot.onSlotChanged();
 		}
 		return previous;

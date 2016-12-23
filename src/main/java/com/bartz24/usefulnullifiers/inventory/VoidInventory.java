@@ -40,19 +40,19 @@ public class VoidInventory implements IInventory {
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return ItemStack.field_190927_a;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		ItemStack itemStack = getStackInSlot(index);
-		if (!itemStack.func_190926_b()) {
-			if (itemStack.func_190916_E() <= count) {
-				setInventorySlotContents(index, ItemStack.field_190927_a);
+		if (!itemStack.isEmpty()) {
+			if (itemStack.getCount() <= count) {
+				setInventorySlotContents(index, ItemStack.EMPTY);
 			} else {
 				itemStack = itemStack.splitStack(count);
-				if (itemStack.func_190916_E() == 0) {
-					setInventorySlotContents(index, ItemStack.field_190927_a);
+				if (itemStack.getCount() == 0) {
+					setInventorySlotContents(index, ItemStack.EMPTY);
 				}
 			}
 		}
@@ -61,7 +61,7 @@ public class VoidInventory implements IInventory {
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		return ItemStack.field_190927_a;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class VoidInventory implements IInventory {
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		return true;
 	}
 
@@ -113,7 +113,7 @@ public class VoidInventory implements IInventory {
 
 	}
 
-	public boolean func_191420_l() {
+	public boolean isEmpty() {
 		return true;
 	}
 }

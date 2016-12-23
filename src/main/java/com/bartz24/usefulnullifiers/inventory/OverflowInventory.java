@@ -10,7 +10,7 @@ import net.minecraft.util.text.TextComponentString;
 
 public class OverflowInventory implements IInventory {
 	public ItemStack parentItemStack;
-	private ItemStack stackInv = ItemStack.field_190927_a;
+	private ItemStack stackInv = ItemStack.EMPTY;
 	public NBTTagCompound tag;
 
 	public OverflowInventory(ItemStack parent) {
@@ -61,13 +61,13 @@ public class OverflowInventory implements IInventory {
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		ItemStack itemStack = getStackInSlot(index);
-		if (!itemStack.func_190926_b()) {
-			if (itemStack.func_190916_E() <= count) {
-				setInventorySlotContents(index, ItemStack.field_190927_a);
+		if (!itemStack.isEmpty()) {
+			if (itemStack.getCount() <= count) {
+				setInventorySlotContents(index, ItemStack.EMPTY);
 			} else {
 				itemStack = itemStack.splitStack(count);
-				if (itemStack.func_190916_E() == 0) {
-					setInventorySlotContents(index, ItemStack.field_190927_a);
+				if (itemStack.getCount() == 0) {
+					setInventorySlotContents(index, ItemStack.EMPTY);
 				}
 			}
 		}
@@ -81,8 +81,8 @@ public class OverflowInventory implements IInventory {
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		if (!stack.func_190926_b() && stack.func_190916_E() > getInventoryStackLimit()) {
-			stack.func_190920_e(getInventoryStackLimit());
+		if (!stack.isEmpty() && stack.getCount() > getInventoryStackLimit()) {
+			stack.setCount(getInventoryStackLimit());
 		}
 		stackInv = stack;
 		markDirty();
@@ -94,7 +94,7 @@ public class OverflowInventory implements IInventory {
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		return true;
 	}
 
@@ -140,7 +140,7 @@ public class OverflowInventory implements IInventory {
 	public void writeToNBT(NBTTagCompound compound) {
 		NBTTagList list = new NBTTagList();
 		for (int i = 0; i < this.getSizeInventory(); ++i) {
-			if (!this.getStackInSlot(i).func_190926_b()) {
+			if (!this.getStackInSlot(i).isEmpty()) {
 				NBTTagCompound stackTag = new NBTTagCompound();
 				stackTag.setByte("Slot", (byte) i);
 				this.getStackInSlot(i).writeToNBT(stackTag);
@@ -150,8 +150,8 @@ public class OverflowInventory implements IInventory {
 		compound.setTag("Items", list);
 	}
 
-	public boolean func_191420_l() {
-		if (!stackInv.func_190926_b()) {
+	public boolean isEmpty() {
+		if (!stackInv.isEmpty()) {
 			return false;
 		}
 

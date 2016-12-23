@@ -16,7 +16,7 @@ import net.minecraftforge.fluids.FluidUtil;
 public class FluidVoidInventory implements IInventory
 {
 
-	NonNullList<ItemStack> inventory = NonNullList.<ItemStack>func_191197_a(1, ItemStack.field_190927_a);
+	NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
 
 	public FluidVoidInventory()
 	{
@@ -67,23 +67,23 @@ public class FluidVoidInventory implements IInventory
 	@Override
 	public ItemStack decrStackSize(int index, int count)
 	{
-		if (!this.getStackInSlot(index).func_190926_b())
+		if (!this.getStackInSlot(index).isEmpty())
 		{
 			ItemStack itemstack;
 
-			if (this.getStackInSlot(index).func_190916_E() <= count)
+			if (this.getStackInSlot(index).getCount() <= count)
 			{
 				itemstack = this.getStackInSlot(index);
-				this.setInventorySlotContents(index, ItemStack.field_190927_a);
+				this.setInventorySlotContents(index, ItemStack.EMPTY);
 				this.markDirty();
 				return itemstack;
 			} else
 			{
 				itemstack = this.getStackInSlot(index).splitStack(count);
 
-				if (this.getStackInSlot(index).func_190916_E() <= 0)
+				if (this.getStackInSlot(index).getCount() <= 0)
 				{
-					this.setInventorySlotContents(index, ItemStack.field_190927_a);
+					this.setInventorySlotContents(index, ItemStack.EMPTY);
 				} else
 				{
 					this.setInventorySlotContents(index,
@@ -95,7 +95,7 @@ public class FluidVoidInventory implements IInventory
 			}
 		} else
 		{
-			return ItemStack.field_190927_a;
+			return ItemStack.EMPTY;
 		}
 	}
 
@@ -105,14 +105,14 @@ public class FluidVoidInventory implements IInventory
 		if (index < 0 || index >= this.getSizeInventory())
 			return;
 
-		if (!stack.func_190926_b() && stack.func_190916_E() > this.getInventoryStackLimit())
-			stack.func_190920_e(this.getInventoryStackLimit());
+		if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
+			stack.setCount(this.getInventoryStackLimit());
 
-		if (!stack.func_190926_b() && stack.func_190916_E() == 0)
-			stack = ItemStack.field_190927_a;
+		if (!stack.isEmpty() && stack.getCount() == 0)
+			stack = ItemStack.EMPTY;
 
-		ItemStack emptyContainer = ItemStack.field_190927_a;
-		if (!stack.func_190926_b())
+		ItemStack emptyContainer = ItemStack.EMPTY;
+		if (!stack.isEmpty())
 		{
 			FluidStack fluid = FluidUtil.getFluidContained(stack);
 			if (fluid != null)
@@ -135,7 +135,7 @@ public class FluidVoidInventory implements IInventory
 			}
 		}
 
-		if (!emptyContainer.func_190926_b())
+		if (!emptyContainer.isEmpty())
 			this.inventory.set(index, emptyContainer);
 		else
 			this.inventory.set(index, stack);
@@ -150,7 +150,7 @@ public class FluidVoidInventory implements IInventory
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
+	public boolean isUsableByPlayer(EntityPlayer player)
 	{
 		return true;
 	}
@@ -164,7 +164,7 @@ public class FluidVoidInventory implements IInventory
 	@Override
 	public void closeInventory(EntityPlayer player)
 	{
-		InventoryHelper.dropInventoryItems(player.worldObj, player, this);
+		InventoryHelper.dropInventoryItems(player.world, player, this);
 	}
 
 	@Override
@@ -197,17 +197,17 @@ public class FluidVoidInventory implements IInventory
 
 	}
 
-    public boolean func_191420_l()
-    {
+	@Override
+	public boolean isEmpty() {
         for (ItemStack itemstack : this.inventory)
         {
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 return false;
             }
         }
 
         return true;
-    }
+	}
 	
 }

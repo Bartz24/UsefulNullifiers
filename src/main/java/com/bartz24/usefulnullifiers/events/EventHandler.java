@@ -14,12 +14,12 @@ public class EventHandler {
 	public void onItemPickup(EntityItemPickupEvent event) {
 		ItemStack stack = event.getItem().getEntityItem();
 		for (int i = 0; i < event.getEntityPlayer().inventory.getSizeInventory(); i++) {
-			if (stack.func_190926_b() || stack.func_190916_E() == 0) {
+			if (stack.isEmpty() || stack.getCount() == 0) {
 				break;
 			}
 			ItemStack stackInv = event.getEntityPlayer().inventory.getStackInSlot(i);
 
-			if (!stackInv.func_190926_b() && stackInv.getItem() == ModItems.overflowNullifier) {
+			if (!stackInv.isEmpty() && stackInv.getItem() == ModItems.overflowNullifier) {
 				OverflowInventory inv = new OverflowInventory(stackInv);
 				stack = fillOverflowInventory(inv, stack);
 				inv.markDirty();
@@ -28,7 +28,7 @@ public class EventHandler {
 	}
 
 	public static boolean canStacksMerge(ItemStack stack1, ItemStack stack2) {
-		if (stack1.func_190926_b() || stack2.func_190926_b()) {
+		if (stack1.isEmpty() || stack2.isEmpty()) {
 			return false;
 		}
 		if (!stack1.isItemEqual(stack2)) {
@@ -45,13 +45,13 @@ public class EventHandler {
 		if (!canStacksMerge(mergeSource, mergeTarget)) {
 			return 0;
 		}
-		int mergeCount = Math.min(mergeTarget.getMaxStackSize() - mergeTarget.func_190916_E(),
-				mergeSource.func_190916_E());
+		int mergeCount = Math.min(mergeTarget.getMaxStackSize() - mergeTarget.getCount(),
+				mergeSource.getCount());
 		if (mergeCount < 1) {
 			return 0;
 		}
 		if (doMerge) {
-			mergeTarget.func_190917_f(mergeCount);
+			mergeTarget.grow(mergeCount);
 		}
 		return mergeCount;
 	}
@@ -60,11 +60,11 @@ public class EventHandler {
 		if (inv != null) {
 			for (int i = 0; i < inv.getSizeInventory(); i++) {
 				ItemStack inside = inv.getStackInSlot(i);
-				if (stack.func_190926_b() || stack.func_190916_E() <= 0)
-					return ItemStack.field_190927_a;
+				if (stack.isEmpty() || stack.getCount() <= 0)
+					return ItemStack.EMPTY;
 				if (canStacksMerge(inside, stack)) {
 					mergeStacks(stack, inside, true);
-					stack.func_190920_e(0);
+					stack.setCount(0);
 				}
 			}
 		}
