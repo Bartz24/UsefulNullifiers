@@ -1,5 +1,6 @@
 package com.bartz24.usefulnullifiers.inventory;
 
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -51,7 +52,7 @@ public class OverflowContainer extends Container
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot)
 	{
-		ItemStack previous = ItemStack.EMPTY;
+		ItemStack previous = ItemStackTools.getEmptyStack();
 		Slot slot = this.inventorySlots.get(fromSlot);
 
 		if (slot != null && slot.getHasStack())
@@ -62,20 +63,20 @@ public class OverflowContainer extends Container
 			if (fromSlot < 1)
 			{
 				if (!this.mergeItemStack(current, 1, 37, true))
-					return ItemStack.EMPTY;
+					return ItemStackTools.getEmptyStack();
 			} else
 			{
 				if (!this.mergeItemStack(current, 0, 1, false))
-					return ItemStack.EMPTY;
+					return ItemStackTools.getEmptyStack();
 			}
 
-			if (current.getCount() == 0)
-				slot.putStack(ItemStack.EMPTY);
+			if (ItemStackTools.getStackSize(current) == 0)
+				slot.putStack(ItemStackTools.getEmptyStack());
 			else
 				slot.onSlotChanged();
 
-			if (current.getCount() == previous.getCount())
-				return ItemStack.EMPTY;
+			if (ItemStackTools.getStackSize(current) == ItemStackTools.getStackSize(previous))
+				return ItemStackTools.getEmptyStack();
 			slot.onSlotChanged();
 		}
 		return previous;

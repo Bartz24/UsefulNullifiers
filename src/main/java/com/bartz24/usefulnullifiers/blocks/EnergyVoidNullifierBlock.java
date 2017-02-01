@@ -53,7 +53,7 @@ public class EnergyVoidNullifierBlock extends BlockContainer
 	{		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
 		{
-			list.add(TextFormatting.DARK_GREEN + "Destroys RF/EU put into it. Cannot be interacted with.");			
+			list.add(TextFormatting.DARK_GREEN + "Destroys FE put into it. Cannot be interacted with.");			
 		}
 		else
 			list.add(TextFormatting.DARK_GREEN + "Hold LSHIFT for description.");

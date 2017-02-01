@@ -1,14 +1,13 @@
 package com.bartz24.usefulnullifiers.inventory;
 
+import mcjty.lib.compat.CompatInventory;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
-public class VoidInventory implements IInventory {
+public class VoidInventory implements CompatInventory {
 
 	public VoidInventory() {
 	}
@@ -40,19 +39,19 @@ public class VoidInventory implements IInventory {
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return ItemStack.EMPTY;
+		return ItemStackTools.getEmptyStack();
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		ItemStack itemStack = getStackInSlot(index);
-		if (!itemStack.isEmpty()) {
-			if (itemStack.getCount() <= count) {
-				setInventorySlotContents(index, ItemStack.EMPTY);
+		if (!ItemStackTools.isEmpty(itemStack)) {
+			if (ItemStackTools.getStackSize(itemStack) <= count) {
+				setInventorySlotContents(index, ItemStackTools.getEmptyStack());
 			} else {
 				itemStack = itemStack.splitStack(count);
-				if (itemStack.getCount() == 0) {
-					setInventorySlotContents(index, ItemStack.EMPTY);
+				if (ItemStackTools.getStackSize(itemStack) == 0) {
+					setInventorySlotContents(index, ItemStackTools.getEmptyStack());
 				}
 			}
 		}
@@ -61,7 +60,7 @@ public class VoidInventory implements IInventory {
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		return ItemStack.EMPTY;
+		return ItemStackTools.getEmptyStack();
 	}
 
 	@Override
@@ -74,7 +73,7 @@ public class VoidInventory implements IInventory {
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
+	public boolean isUsable(EntityPlayer player) {
 		return true;
 	}
 
@@ -111,9 +110,5 @@ public class VoidInventory implements IInventory {
 	@Override
 	public void markDirty() {
 
-	}
-
-	public boolean isEmpty() {
-		return true;
 	}
 }

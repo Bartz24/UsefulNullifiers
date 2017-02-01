@@ -29,16 +29,16 @@ public class ModCrafting
 		if (ConfigOptions.enableVoid)
 			GameRegistry.addRecipe(new ShapedOreRecipe(
 					new ItemStack(ModBlocks.voidNullifierBlock), new Object[]
-					{ "XXX", "XYX", "XXX", 'X', "stone", 'Y', new ItemStack(Items.LAVA_BUCKET) }));
+					{ "XZX", "ZYZ", "XZX", 'X', "stone", 'Y', new ItemStack(Items.LAVA_BUCKET), 'Z', "cobblestone" }));
 		if (ConfigOptions.enableFluidVoid)
 			GameRegistry.addRecipe(new ShapedOreRecipe(
 					new ItemStack(ModBlocks.fluidVoidNullifierBlock),
 					new Object[]
-					{ "XXX", "XYX", "XXX", 'X', "stone", 'Y', new ItemStack(Items.ENDER_PEARL) }));
+					{ "XZX", "ZYZ", "XZX", 'X', "stone", 'Y', new ItemStack(Items.ENDER_PEARL), 'Z', "cobblestone" }));
 		if (ConfigOptions.enableEnergyVoid)
 			GameRegistry.addRecipe(new ShapedOreRecipe(
 					new ItemStack(ModBlocks.energyVoidNullifierBlock),
 					new Object[]
-					{ "XXX", "XYX", "XXX", 'X', "stone", 'Y', new ItemStack(Blocks.REDSTONE_BLOCK) }));
+					{ "XZX", "ZYZ", "XZX", 'X', "stone", 'Y', new ItemStack(Blocks.REDSTONE_BLOCK), 'Z', "cobblestone" }));
 	}
 }

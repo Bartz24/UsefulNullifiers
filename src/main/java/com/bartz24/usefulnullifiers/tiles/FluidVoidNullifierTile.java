@@ -34,7 +34,7 @@ public class FluidVoidNullifierTile extends TileEntity implements IFluidHandler
 	@Override
 	public IFluidTankProperties[] getTankProperties()
 	{
-		return null;
+		return new IFluidTankProperties[0];
 	}
 
 	@Override

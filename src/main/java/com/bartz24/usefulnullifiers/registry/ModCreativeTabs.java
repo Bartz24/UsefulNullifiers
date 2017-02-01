@@ -1,21 +1,17 @@
 package com.bartz24.usefulnullifiers.registry;
 
-import net.minecraft.creativetab.CreativeTabs;
+import mcjty.lib.compat.CompatCreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModCreativeTabs
 {
-	public static CreativeTabs tabMain = new CreativeTabs(
+	public static CompatCreativeTabs tabMain = new CompatCreativeTabs(
 			"usefulnullifiers.tabMain")
 	{
 		@Override
-		@SideOnly(Side.CLIENT)
-		public ItemStack getTabIconItem()
+		public Item getItem()
 		{
-			return new ItemStack(ModItems.overflowNullifier);
+			return ModItems.overflowNullifier;
 		}
 	};
 }

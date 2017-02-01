@@ -10,10 +10,11 @@ import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
 import com.bartz24.usefulnullifiers.registry.ModCreativeTabs;
 import com.bartz24.usefulnullifiers.registry.ModGuiHandler;
 
+import mcjty.lib.compat.CompatItem;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -23,10 +24,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-public class OverflowNullifierItem extends Item {
+public class OverflowNullifierItem extends CompatItem {
 	public OverflowNullifierItem(String unlocalizedName, String registryName) {
 		this.setUnlocalizedName(References.ModID + "." + unlocalizedName);
 		setRegistryName(registryName);
@@ -35,11 +35,11 @@ public class OverflowNullifierItem extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack itemStack = player.getHeldItem(hand);
 		OverflowInventory inv = new OverflowInventory(itemStack);
 		ItemStack invStack = inv.getStackInSlot(0);
-		Block block = invStack.isEmpty() ? Blocks.AIR : Block.getBlockFromItem(invStack.getItem());
+		Block block = ItemStackTools.isEmpty(invStack) ? Blocks.AIR : Block.getBlockFromItem(invStack.getItem());
 
 		RayTraceResult rayTrace = this.rayTrace(world, player, true);
 
@@ -59,13 +59,9 @@ public class OverflowNullifierItem extends Item {
 						block.getSoundType().getPlaceSound(), SoundCategory.BLOCKS, block.getSoundType().getVolume(),
 						block.getSoundType().getPitch());
 				player.swingArm(hand);
-
 				if (!world.isRemote) {
 					world.setBlockState(hitPos.add(blockHitSide.getDirectionVec()),
-							block.getStateForPlacement(world, hitPos.add(blockHitSide.getDirectionVec()), blockHitSide,
-									(float) rayTrace.hitVec.xCoord, (float) rayTrace.hitVec.yCoord,
-									(float) rayTrace.hitVec.zCoord, invStack.getMetadata(), player),
-							3);
+							block.getStateFromMeta(invStack.getMetadata()));
 
 					inv.decrStackSize(0, 1);
 					inv.markDirty();
@@ -87,9 +83,8 @@ public class OverflowNullifierItem extends Item {
 
 	public String getItemStackDisplayName(ItemStack stack) {
 		OverflowInventory inv = new OverflowInventory(stack);
-		String name = TextFormatting.GREEN
-				+ (inv.getStackInSlot(0) == ItemStack.EMPTY ? "None" : inv.getStackInSlot(0).getDisplayName()
-				+ " x " + inv.getStackInSlot(0).getCount());
+		String name = TextFormatting.GREEN + (ItemStackTools.isEmpty(inv.getStackInSlot(0)) ? "None"
+				: inv.getStackInSlot(0).getDisplayName() + " x " + ItemStackTools.getStackSize(inv.getStackInSlot(0)));
 		return super.getItemStackDisplayName(stack) + " (" + name + TextFormatting.WHITE + ")";
 	}
 }

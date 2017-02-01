@@ -1,19 +1,16 @@
 package com.bartz24.usefulnullifiers.tiles;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import mcjty.lib.compat.CompatItemHandler;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
-public class VoidNullifierTile extends TileEntity implements IItemHandler {
+public class VoidNullifierTile extends TileEntity implements CompatItemHandler {
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return ItemStack.EMPTY;
+		return ItemStackTools.getEmptyStack();
 	}
 
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability,
@@ -36,16 +33,16 @@ public class VoidNullifierTile extends TileEntity implements IItemHandler {
 
 	@Override
 	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-		return ItemStack.EMPTY;
+		return ItemStackTools.getEmptyStack();
 	}
 
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate) {
-		return ItemStack.EMPTY;
+		return ItemStackTools.getEmptyStack();
 	}
 
 	@Override
-	public int getSlotLimit(int slot) {
+	public int getSlotMaxLimit() {
 		return 64;
 	}
 }

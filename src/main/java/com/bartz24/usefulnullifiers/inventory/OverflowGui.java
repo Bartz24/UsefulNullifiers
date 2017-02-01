@@ -2,6 +2,7 @@ package com.bartz24.usefulnullifiers.inventory;
 
 import com.bartz24.usefulnullifiers.References;
 
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -34,7 +35,7 @@ public class OverflowGui extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		ItemStack stack = inv.getStackInSlot(0);
-		Block block = stack.isEmpty() ? null : Block.getBlockFromItem(stack.getItem());
+		Block block = ItemStackTools.isEmpty(stack) ? null : Block.getBlockFromItem(stack.getItem());
 		String s = "Overflow Nullifier";
 		this.fontRendererObj.drawString(s, 88 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(this.player.inventory.getDisplayName().getUnformattedText(), 8, 72, 4210752);

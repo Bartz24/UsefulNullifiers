@@ -1,141 +1,118 @@
 package com.bartz24.usefulnullifiers.inventory;
 
+import mcjty.lib.compat.CompatInventory;
+import mcjty.lib.tools.FluidTools;
+import mcjty.lib.tools.ItemStackList;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
 
-public class FluidVoidInventory implements IInventory
-{
+public class FluidVoidInventory implements CompatInventory {
 
-	NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
+	ItemStackList inventory = ItemStackList.create(1);
 
-	public FluidVoidInventory()
-	{
+	public FluidVoidInventory() {
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack stack)
-	{
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		return true;
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return "Fluid Void Nullifier";
 	}
 
 	@Override
-	public boolean hasCustomName()
-	{
+	public boolean hasCustomName() {
 		return false;
 	}
 
 	@Override
-	public ITextComponent getDisplayName()
-	{
+	public ITextComponent getDisplayName() {
 		return new TextComponentString(getName());
 	}
 
 	@Override
-	public int getSizeInventory()
-	{
+	public int getSizeInventory() {
 		return 1;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int index)
-	{
+	public ItemStack getStackInSlot(int index) {
 		return inventory.get(index);
 	}
 
 	@Override
-	public ItemStack removeStackFromSlot(int index)
-	{
-		return ItemStackHelper.getAndRemove(this.inventory, index);
+	public ItemStack removeStackFromSlot(int index) {
+		ItemStack returnStack = getStackInSlot(index).copy();
+		this.inventory.set(index, ItemStackTools.getEmptyStack());
+		return returnStack;
 	}
 
 	@Override
-	public ItemStack decrStackSize(int index, int count)
-	{
-		if (!this.getStackInSlot(index).isEmpty())
-		{
+	public ItemStack decrStackSize(int index, int count) {
+		if (!ItemStackTools.isEmpty(this.getStackInSlot(index))) {
 			ItemStack itemstack;
 
-			if (this.getStackInSlot(index).getCount() <= count)
-			{
+			if (ItemStackTools.getStackSize(this.getStackInSlot(index)) <= count) {
 				itemstack = this.getStackInSlot(index);
-				this.setInventorySlotContents(index, ItemStack.EMPTY);
+				this.setInventorySlotContents(index, ItemStackTools.getEmptyStack());
 				this.markDirty();
 				return itemstack;
-			} else
-			{
+			} else {
 				itemstack = this.getStackInSlot(index).splitStack(count);
 
-				if (this.getStackInSlot(index).getCount() <= 0)
-				{
-					this.setInventorySlotContents(index, ItemStack.EMPTY);
-				} else
-				{
-					this.setInventorySlotContents(index,
-							this.getStackInSlot(index));
+				if (ItemStackTools.getStackSize(this.getStackInSlot(index)) <= 0) {
+					this.setInventorySlotContents(index, ItemStackTools.getEmptyStack());
+				} else {
+					this.setInventorySlotContents(index, this.getStackInSlot(index));
 				}
 
 				this.markDirty();
 				return itemstack;
 			}
-		} else
-		{
-			return ItemStack.EMPTY;
+		} else {
+			return ItemStackTools.getEmptyStack();
 		}
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack)
-	{
+	public void setInventorySlotContents(int index, ItemStack stack) {
 		if (index < 0 || index >= this.getSizeInventory())
 			return;
 
-		if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
-			stack.setCount(this.getInventoryStackLimit());
+		if (!ItemStackTools.isEmpty(stack) && ItemStackTools.getStackSize(stack) > this.getInventoryStackLimit())
+			ItemStackTools.setStackSize(stack, this.getInventoryStackLimit());
 
-		if (!stack.isEmpty() && stack.getCount() == 0)
-			stack = ItemStack.EMPTY;
+		if (!ItemStackTools.isEmpty(stack) && ItemStackTools.getStackSize(stack) == 0)
+			stack = ItemStackTools.getEmptyStack();
 
-		ItemStack emptyContainer = ItemStack.EMPTY;
-		if (!stack.isEmpty())
-		{
+		ItemStack emptyContainer = ItemStackTools.getEmptyStack();
+		if (!ItemStackTools.isEmpty(stack)) {
 			FluidStack fluid = FluidUtil.getFluidContained(stack);
-			if (fluid != null)
-			{
-				emptyContainer = FluidUtil.tryEmptyContainer(stack,
-						new FluidTank(Integer.MAX_VALUE), fluid.amount, null,
-						true).getResult();
+			if (fluid != null) {
+				emptyContainer = FluidTools.drainContainer(stack);
 			}
-			if (stack.getItem() == Items.WATER_BUCKET)
-			{
+			if (stack.getItem() == Items.WATER_BUCKET) {
 				emptyContainer = new ItemStack(Items.BUCKET);
 			}
-			if (stack.getItem() == Items.LAVA_BUCKET)
-			{
+			if (stack.getItem() == Items.LAVA_BUCKET) {
 				emptyContainer = new ItemStack(Items.BUCKET);
 			}
-			if (stack.getItem() == Items.MILK_BUCKET)
-			{
+			if (stack.getItem() == Items.MILK_BUCKET) {
 				emptyContainer = new ItemStack(Items.BUCKET);
 			}
 		}
 
-		if (!emptyContainer.isEmpty())
+		if (!ItemStackTools.isEmpty(emptyContainer))
 			this.inventory.set(index, emptyContainer);
 		else
 			this.inventory.set(index, stack);
@@ -144,70 +121,47 @@ public class FluidVoidInventory implements IInventory
 	}
 
 	@Override
-	public int getInventoryStackLimit()
-	{
+	public int getInventoryStackLimit() {
 		return 64;
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player)
-	{
+	public boolean isUsable(EntityPlayer player) {
 		return true;
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player)
-	{
+	public void openInventory(EntityPlayer player) {
 
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player)
-	{
-		InventoryHelper.dropInventoryItems(player.world, player, this);
+	public void closeInventory(EntityPlayer player) {
+		InventoryHelper.dropInventoryItems(player.getEntityWorld(), player, this);
 	}
 
 	@Override
-	public int getField(int id)
-	{
+	public int getField(int id) {
 		return 0;
 	}
 
 	@Override
-	public void setField(int id, int value)
-	{
+	public void setField(int id, int value) {
 
 	}
 
 	@Override
-	public int getFieldCount()
-	{
+	public int getFieldCount() {
 		return 0;
 	}
 
 	@Override
-	public void clear()
-	{
+	public void clear() {
 
 	}
 
 	@Override
-	public void markDirty()
-	{
+	public void markDirty() {
 
 	}
-
-	@Override
-	public boolean isEmpty() {
-        for (ItemStack itemstack : this.inventory)
-        {
-            if (!itemstack.isEmpty())
-            {
-                return false;
-            }
-        }
-
-        return true;
-	}
-	
 }
