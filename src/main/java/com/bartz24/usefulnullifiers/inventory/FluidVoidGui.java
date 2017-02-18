@@ -28,7 +28,7 @@ public class FluidVoidGui extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-		this.mc.getTextureManager().bindTexture(new ResourceLocation(References.ModID, "textures/gui/singleSlot.png"));
+		this.mc.getTextureManager().bindTexture(new ResourceLocation(References.ModID, "textures/gui/singleslot.png"));
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	}
 
@@ -37,7 +37,8 @@ public class FluidVoidGui extends GuiContainer {
 		ItemStack stack = inv.getStackInSlot(0);
 		Block block = ItemStackTools.isEmpty(stack) ? null : Block.getBlockFromItem(stack.getItem());
 		String s = inv.getDisplayName().getUnformattedText();
-		this.fontRendererObj.drawString(s, 88 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(this.player.inventory.getDisplayName().getUnformattedText(), 8, 72, 4210752);
+		
+		this.fontRenderer.drawString(s, 88 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
+		this.fontRenderer.drawString(this.player.inventory.getDisplayName().getUnformattedText(), 8, 72, 4210752);
 	}
 }
