@@ -10,11 +10,10 @@ import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
 import com.bartz24.usefulnullifiers.registry.ModCreativeTabs;
 import com.bartz24.usefulnullifiers.registry.ModGuiHandler;
 
-import mcjty.lib.compat.CompatItem;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -26,7 +25,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class OverflowNullifierItem extends CompatItem {
+public class OverflowNullifierItem extends Item {
 	public OverflowNullifierItem(String unlocalizedName, String registryName) {
 		this.setUnlocalizedName(References.ModID + "." + unlocalizedName);
 		setRegistryName(registryName);
@@ -35,14 +34,13 @@ public class OverflowNullifierItem extends CompatItem {
 	}
 
 	@Override
-	public ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack itemStack = player.getHeldItem(hand);
 		OverflowInventory inv = new OverflowInventory(itemStack);
 		ItemStack invStack = inv.getStackInSlot(0);
-		Block block = ItemStackTools.isEmpty(invStack) ? Blocks.AIR : Block.getBlockFromItem(invStack.getItem());
+		Block block = invStack.isEmpty() ? Blocks.AIR : Block.getBlockFromItem(invStack.getItem());
 
 		RayTraceResult rayTrace = this.rayTrace(world, player, true);
-
 		if (rayTrace == null || block == Blocks.AIR || world.isAirBlock(rayTrace.getBlockPos())) {
 			if (!world.isRemote) {
 				player.openGui(UsefulNullifiers.instance, ModGuiHandler.OverflowGUI, world,
@@ -83,8 +81,8 @@ public class OverflowNullifierItem extends CompatItem {
 
 	public String getItemStackDisplayName(ItemStack stack) {
 		OverflowInventory inv = new OverflowInventory(stack);
-		String name = TextFormatting.GREEN + (ItemStackTools.isEmpty(inv.getStackInSlot(0)) ? "None"
-				: inv.getStackInSlot(0).getDisplayName() + " x " + ItemStackTools.getStackSize(inv.getStackInSlot(0)));
+		String name = TextFormatting.GREEN + (inv.getStackInSlot(0).isEmpty() ? "None"
+				: inv.getStackInSlot(0).getDisplayName() + " x " + inv.getStackInSlot(0).getCount());
 		return super.getItemStackDisplayName(stack) + " (" + name + TextFormatting.WHITE + ")";
 	}
 }

@@ -15,27 +15,22 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-public class CommonProxy
-{
-	public void preInit(FMLPreInitializationEvent e)
-	{
+public class CommonProxy {
+	public void preInit(FMLPreInitializationEvent e) {
 		ConfigOptions.loadConfigThenSave(e);
 		ModItems.init();
 		ModBlocks.init();
 	}
-	
-	public void init(FMLInitializationEvent e)
-	{
-		NetworkRegistry.INSTANCE.registerGuiHandler(UsefulNullifiers.instance,
-				new ModGuiHandler());
-		
+
+	public void init(FMLInitializationEvent e) {
+		NetworkRegistry.INSTANCE.registerGuiHandler(UsefulNullifiers.instance, new ModGuiHandler());
+
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
-		
+
 		ModEntities.init();
 	}
-	
-	public void postInit(FMLPostInitializationEvent e)
-	{
+
+	public void postInit(FMLPostInitializationEvent e) {
 		ModCrafting.init();
 	}
 }

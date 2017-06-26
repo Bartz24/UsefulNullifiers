@@ -1,21 +1,21 @@
 package com.bartz24.usefulnullifiers.inventory;
 
-import mcjty.lib.compat.CompatInventory;
-import mcjty.lib.tools.FluidTools;
-import mcjty.lib.tools.ItemStackList;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
 
-public class FluidVoidInventory implements CompatInventory {
+public class FluidVoidInventory implements IInventory {
 
-	ItemStackList inventory = ItemStackList.create(1);
+	NonNullList<ItemStack> inventory = NonNullList.withSize(1, ItemStack.EMPTY);
 
 	public FluidVoidInventory() {
 	}
@@ -53,25 +53,25 @@ public class FluidVoidInventory implements CompatInventory {
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		ItemStack returnStack = getStackInSlot(index).copy();
-		this.inventory.set(index, ItemStackTools.getEmptyStack());
+		this.inventory.set(index, ItemStack.EMPTY);
 		return returnStack;
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
-		if (!ItemStackTools.isEmpty(this.getStackInSlot(index))) {
+		if (!this.getStackInSlot(index).isEmpty()) {
 			ItemStack itemstack;
 
-			if (ItemStackTools.getStackSize(this.getStackInSlot(index)) <= count) {
+			if (this.getStackInSlot(index).getCount() <= count) {
 				itemstack = this.getStackInSlot(index);
-				this.setInventorySlotContents(index, ItemStackTools.getEmptyStack());
+				this.setInventorySlotContents(index, ItemStack.EMPTY);
 				this.markDirty();
 				return itemstack;
 			} else {
 				itemstack = this.getStackInSlot(index).splitStack(count);
 
-				if (ItemStackTools.getStackSize(this.getStackInSlot(index)) <= 0) {
-					this.setInventorySlotContents(index, ItemStackTools.getEmptyStack());
+				if (this.getStackInSlot(index).getCount() <= 0) {
+					this.setInventorySlotContents(index, ItemStack.EMPTY);
 				} else {
 					this.setInventorySlotContents(index, this.getStackInSlot(index));
 				}
@@ -80,7 +80,7 @@ public class FluidVoidInventory implements CompatInventory {
 				return itemstack;
 			}
 		} else {
-			return ItemStackTools.getEmptyStack();
+			return ItemStack.EMPTY;
 		}
 	}
 
@@ -89,17 +89,20 @@ public class FluidVoidInventory implements CompatInventory {
 		if (index < 0 || index >= this.getSizeInventory())
 			return;
 
-		if (!ItemStackTools.isEmpty(stack) && ItemStackTools.getStackSize(stack) > this.getInventoryStackLimit())
-			ItemStackTools.setStackSize(stack, this.getInventoryStackLimit());
+		if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
+			stack.setCount(this.getInventoryStackLimit());
 
-		if (!ItemStackTools.isEmpty(stack) && ItemStackTools.getStackSize(stack) == 0)
-			stack = ItemStackTools.getEmptyStack();
+		if (!stack.isEmpty() && stack.getCount() == 0)
+			stack = ItemStack.EMPTY;
 
-		ItemStack emptyContainer = ItemStackTools.getEmptyStack();
-		if (!ItemStackTools.isEmpty(stack)) {
+		ItemStack emptyContainer = ItemStack.EMPTY;
+		if (!stack.isEmpty()) {
 			FluidStack fluid = FluidUtil.getFluidContained(stack);
 			if (fluid != null) {
-				emptyContainer = FluidTools.drainContainer(stack);
+				FluidActionResult result = FluidUtil.tryEmptyContainer(stack, new FluidTank(Integer.MAX_VALUE), 1000,
+						null, true);
+				if (result.success)
+					emptyContainer = result.getResult();					
 			}
 			if (stack.getItem() == Items.WATER_BUCKET) {
 				emptyContainer = new ItemStack(Items.BUCKET);
@@ -112,7 +115,7 @@ public class FluidVoidInventory implements CompatInventory {
 			}
 		}
 
-		if (!ItemStackTools.isEmpty(emptyContainer))
+		if (!emptyContainer.isEmpty())
 			this.inventory.set(index, emptyContainer);
 		else
 			this.inventory.set(index, stack);
@@ -123,11 +126,6 @@ public class FluidVoidInventory implements CompatInventory {
 	@Override
 	public int getInventoryStackLimit() {
 		return 64;
-	}
-
-	@Override
-	public boolean isUsable(EntityPlayer player) {
-		return true;
 	}
 
 	@Override
@@ -163,5 +161,15 @@ public class FluidVoidInventory implements CompatInventory {
 	@Override
 	public void markDirty() {
 
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return this.inventory.get(0).isEmpty();
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return true;
 	}
 }

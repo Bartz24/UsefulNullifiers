@@ -1,17 +1,19 @@
 package com.bartz24.usefulnullifiers.registry;
 
-import com.bartz24.usefulnullifiers.References;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bartz24.usefulnullifiers.blocks.EnergyVoidNullifierBlock;
 import com.bartz24.usefulnullifiers.blocks.FluidVoidNullifierBlock;
 import com.bartz24.usefulnullifiers.blocks.VoidNullifierBlock;
 
-import mcjty.lib.compat.CompatItemBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.item.ItemBlock;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.GameData;
 
 public class ModBlocks {
 	public static Block voidNullifierBlock;
@@ -30,25 +32,9 @@ public class ModBlocks {
 						6F, SoundType.STONE));
 	}
 
-	public static Block registerBlock(Block block, String name) {
-		GameRegistry.register(block, new ResourceLocation(References.ModID, name));
-		GameRegistry.register(new CompatItemBlock(block).setRegistryName(new ResourceLocation(References.ModID, name)));
-
-		return block;
-	}
-
 	public static Block registerBlock(Block block) {
-		GameRegistry.register(block);
-		GameRegistry.register(new CompatItemBlock(block).setRegistryName(block.getRegistryName()));
-
+		GameData.register_impl(block);
+		GameData.register_impl(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		return block;
 	}
-
-	/*
-	 * public static void registerItemBlock(Block block) {
-	 * GameRegistry.register(block); GameRegistry.register(new
-	 * ItemBlockMeta(block) .setRegistryName(block.getRegistryName()));
-	 * 
-	 * }
-	 */
 }

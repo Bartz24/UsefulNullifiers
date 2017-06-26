@@ -7,8 +7,6 @@ import com.bartz24.usefulnullifiers.References;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
-import net.minecraftforge.fml.client.IModGuiFactory.RuntimeOptionCategoryElement;
-import net.minecraftforge.fml.client.IModGuiFactory.RuntimeOptionGuiHandler;
 import net.minecraftforge.fml.client.config.GuiConfig;
 
 public class ConfigGuiFactory implements IModGuiFactory
@@ -52,5 +50,14 @@ public class ConfigGuiFactory implements IModGuiFactory
 							ConfigOptions.config.toString()));
 		}
 
+	}
+
+	public boolean hasConfigGui() {
+		return true;
+	}
+
+	public GuiScreen createConfigGui(GuiScreen parentScreen) {
+		
+		return new ConfigGui(parentScreen);
 	}
 }

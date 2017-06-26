@@ -1,10 +1,8 @@
 package com.bartz24.usefulnullifiers.inventory;
 
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 
 public class VoidContainer extends Container
@@ -52,7 +50,7 @@ public class VoidContainer extends Container
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot)
 	{
-		ItemStack previous = ItemStackTools.getEmptyStack();
+		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(fromSlot);
 
 		if (slot != null && slot.getHasStack())
@@ -63,20 +61,20 @@ public class VoidContainer extends Container
 			if (fromSlot < 1)
 			{
 				if (!this.mergeItemStack(current, 1, 37, true))
-					return ItemStackTools.getEmptyStack();
+					return ItemStack.EMPTY;
 			} else
 			{
 				if (!this.mergeItemStack(current, 0, 1, false))
-					return ItemStackTools.getEmptyStack();
+					return ItemStack.EMPTY;
 			}
 
-			if (ItemStackTools.getStackSize(current) == 0)
-				slot.putStack(ItemStackTools.getEmptyStack());
+			if (current.getCount() == 0)
+				slot.putStack(ItemStack.EMPTY);
 			else
 				slot.onSlotChanged();
 
-			if (ItemStackTools.getStackSize(current) == ItemStackTools.getStackSize(previous))
-				return ItemStackTools.getEmptyStack();
+			if (current.getCount() == previous.getCount())
+				return ItemStack.EMPTY;
 			slot.onSlotChanged();
 		}
 		return previous;

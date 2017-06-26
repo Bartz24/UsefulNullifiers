@@ -50,7 +50,7 @@ public class ModGuiHandler implements IGuiHandler
 	}
 
 	static ItemStack getOverflowStack(EntityPlayer p) {
-        if (p.getHeldItemMainhand() != null
+        if (!p.getHeldItemMainhand().isEmpty()
                 && p.getHeldItemMainhand().getItem() instanceof OverflowNullifierItem) {
             return p.getHeldItemMainhand();
         } else {

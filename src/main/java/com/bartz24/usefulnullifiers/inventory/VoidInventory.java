@@ -1,13 +1,12 @@
 package com.bartz24.usefulnullifiers.inventory;
 
-import mcjty.lib.compat.CompatInventory;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
-public class VoidInventory implements CompatInventory {
+public class VoidInventory implements IInventory {
 
 	public VoidInventory() {
 	}
@@ -39,19 +38,19 @@ public class VoidInventory implements CompatInventory {
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return ItemStackTools.getEmptyStack();
+		return ItemStack.EMPTY;
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		ItemStack itemStack = getStackInSlot(index);
-		if (!ItemStackTools.isEmpty(itemStack)) {
-			if (ItemStackTools.getStackSize(itemStack) <= count) {
-				setInventorySlotContents(index, ItemStackTools.getEmptyStack());
+		if (!itemStack.isEmpty()) {
+			if (itemStack.getCount() <= count) {
+				setInventorySlotContents(index, ItemStack.EMPTY);
 			} else {
 				itemStack = itemStack.splitStack(count);
-				if (ItemStackTools.getStackSize(itemStack) == 0) {
-					setInventorySlotContents(index, ItemStackTools.getEmptyStack());
+				if (itemStack.getCount() == 0) {
+					setInventorySlotContents(index, ItemStack.EMPTY);
 				}
 			}
 		}
@@ -60,7 +59,7 @@ public class VoidInventory implements CompatInventory {
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		return ItemStackTools.getEmptyStack();
+		return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -73,7 +72,7 @@ public class VoidInventory implements CompatInventory {
 	}
 
 	@Override
-	public boolean isUsable(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		return true;
 	}
 
@@ -110,5 +109,10 @@ public class VoidInventory implements CompatInventory {
 	@Override
 	public void markDirty() {
 
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return true;
 	}
 }

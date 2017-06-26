@@ -1,17 +1,13 @@
 package com.bartz24.usefulnullifiers.registry;
 
-import mcjty.lib.compat.CompatCreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 
-public class ModCreativeTabs
-{
-	public static CompatCreativeTabs tabMain = new CompatCreativeTabs(
-			"usefulnullifiers.tabMain")
-	{
+public class ModCreativeTabs {
+	public static CreativeTabs tabMain = new CreativeTabs("usefulnullifiers.tabMain") {
 		@Override
-		public Item getItem()
-		{
-			return ModItems.overflowNullifier;
+		public ItemStack getTabIconItem() {
+			return new ItemStack(ModItems.overflowNullifier);
 		}
 	};
 }

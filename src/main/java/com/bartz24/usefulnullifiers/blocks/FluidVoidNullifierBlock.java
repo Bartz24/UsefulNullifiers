@@ -5,7 +5,6 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import com.bartz24.usefulnullifiers.References;
-import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
 import com.bartz24.usefulnullifiers.registry.ModCreativeTabs;
 import com.bartz24.usefulnullifiers.tiles.FluidVoidNullifierTile;
 

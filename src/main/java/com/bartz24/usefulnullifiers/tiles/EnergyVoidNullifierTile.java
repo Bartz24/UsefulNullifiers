@@ -28,7 +28,13 @@ public class EnergyVoidNullifierTile extends TileEntity
 	 * 
 	 * addedToEnet = true; } }
 	 */
-    private EnergyStorage energy = new EnergyStorage(Integer.MAX_VALUE, Integer.MAX_VALUE, 0);
+    private EnergyStorage energy = new EnergyStorage(Integer.MAX_VALUE, Integer.MAX_VALUE, 0) {
+    	@Override
+        public int receiveEnergy(int maxReceive, boolean simulate)
+        {
+            return maxReceive;
+        }
+    };
 
 	/*
 	 * @Override public boolean acceptsEnergyFrom(IEnergyEmitter arg0,

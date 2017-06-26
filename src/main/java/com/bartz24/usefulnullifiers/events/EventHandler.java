@@ -3,7 +3,6 @@ package com.bartz24.usefulnullifiers.events;
 import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
 import com.bartz24.usefulnullifiers.registry.ModItems;
 
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -15,14 +14,14 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent event) {
-		ItemStack stack = event.getItem().getEntityItem();
+		ItemStack stack = event.getItem().getItem();
 		for (int i = 0; i < event.getEntityPlayer().inventory.getSizeInventory(); i++) {
-			if (ItemStackTools.isEmpty(stack) || ItemStackTools.getStackSize(stack) == 0) {
+			if (stack.isEmpty() || stack.getCount() == 0) {
 				break;
 			}
 			ItemStack stackInv = event.getEntityPlayer().inventory.getStackInSlot(i);
 
-			if (!ItemStackTools.isEmpty(stackInv) && stackInv.getItem() == ModItems.overflowNullifier) {
+			if (!stackInv.isEmpty() && stackInv.getItem() == ModItems.overflowNullifier) {
 				OverflowInventory inv = new OverflowInventory(stackInv);
 				stack = fillOverflowInventory(inv, stack);
 				inv.markDirty();
@@ -31,7 +30,7 @@ public class EventHandler {
 	}
 
 	public static boolean canStacksMerge(ItemStack stack1, ItemStack stack2) {
-		if (ItemStackTools.isEmpty(stack1) || ItemStackTools.isEmpty(stack2)) {
+		if (stack1.isEmpty() || stack2.isEmpty()) {
 			return false;
 		}
 		if (!stack1.isItemEqual(stack2)) {
@@ -48,13 +47,13 @@ public class EventHandler {
 		if (!canStacksMerge(mergeSource, mergeTarget)) {
 			return 0;
 		}
-		int mergeCount = Math.min(mergeTarget.getMaxStackSize() - ItemStackTools.getStackSize(mergeTarget),
-				ItemStackTools.getStackSize(mergeSource));
+		int mergeCount = Math.min(mergeTarget.getMaxStackSize() - mergeTarget.getCount(),
+				mergeSource.getCount());
 		if (mergeCount < 1) {
 			return 0;
 		}
 		if (doMerge) {
-			ItemStackTools.setStackSize(mergeTarget, ItemStackTools.getStackSize(mergeTarget) + mergeCount);
+			mergeTarget.setCount(mergeTarget.getCount() + mergeCount);
 		}
 		return mergeCount;
 	}
@@ -63,11 +62,11 @@ public class EventHandler {
 		if (inv != null) {
 			for (int i = 0; i < inv.getSizeInventory(); i++) {
 				ItemStack inside = inv.getStackInSlot(i);
-				if (ItemStackTools.isEmpty(stack) || ItemStackTools.getStackSize(stack) <= 0)
-					return ItemStackTools.getEmptyStack();
+				if (stack.isEmpty() || stack.getCount() <= 0)
+					return ItemStack.EMPTY;
 				if (canStacksMerge(inside, stack)) {
 					mergeStacks(stack, inside, true);
-					ItemStackTools.setStackSize(stack, 0);
+					stack.setCount(0);
 				}
 			}
 		}

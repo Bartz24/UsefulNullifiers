@@ -2,12 +2,9 @@ package com.bartz24.usefulnullifiers.inventory;
 
 import com.bartz24.usefulnullifiers.References;
 
-import mcjty.lib.tools.ItemStackTools;
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class FluidVoidGui extends GuiContainer {
@@ -34,10 +31,8 @@ public class FluidVoidGui extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		ItemStack stack = inv.getStackInSlot(0);
-		Block block = ItemStackTools.isEmpty(stack) ? null : Block.getBlockFromItem(stack.getItem());
 		String s = inv.getDisplayName().getUnformattedText();
-		
+
 		this.fontRenderer.drawString(s, 88 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
 		this.fontRenderer.drawString(this.player.inventory.getDisplayName().getUnformattedText(), 8, 72, 4210752);
 	}

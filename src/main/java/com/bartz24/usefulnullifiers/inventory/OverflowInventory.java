@@ -1,17 +1,16 @@
 package com.bartz24.usefulnullifiers.inventory;
 
-import mcjty.lib.compat.CompatInventory;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
-public class OverflowInventory implements CompatInventory {
+public class OverflowInventory implements IInventory {
 	public ItemStack parentItemStack;
-	private ItemStack stackInv = ItemStackTools.getEmptyStack();
+	private ItemStack stackInv = ItemStack.EMPTY;
 	public NBTTagCompound tag;
 
 	public OverflowInventory(ItemStack parent) {
@@ -62,13 +61,13 @@ public class OverflowInventory implements CompatInventory {
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		ItemStack itemStack = getStackInSlot(index);
-		if (!ItemStackTools.isEmpty(itemStack)) {
-			if (ItemStackTools.getStackSize(itemStack) <= count) {
-				setInventorySlotContents(index, ItemStackTools.getEmptyStack());
+		if (!itemStack.isEmpty()) {
+			if (itemStack.getCount() <= count) {
+				setInventorySlotContents(index, ItemStack.EMPTY);
 			} else {
 				itemStack = itemStack.splitStack(count);
-				if (ItemStackTools.getStackSize(itemStack) == 0) {
-					setInventorySlotContents(index, ItemStackTools.getEmptyStack());
+				if (itemStack.getCount() == 0) {
+					setInventorySlotContents(index, ItemStack.EMPTY);
 				}
 			}
 		}
@@ -82,8 +81,8 @@ public class OverflowInventory implements CompatInventory {
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		if (!ItemStackTools.isEmpty(stack) && ItemStackTools.getStackSize(stack) > getInventoryStackLimit()) {
-			ItemStackTools.setStackSize(stack, getInventoryStackLimit());
+		if (!stack.isEmpty() && stack.getCount() > getInventoryStackLimit()) {
+			stack.setCount(getInventoryStackLimit());
 		}
 		stackInv = stack;
 		markDirty();
@@ -92,11 +91,6 @@ public class OverflowInventory implements CompatInventory {
 	@Override
 	public int getInventoryStackLimit() {
 		return 64;
-	}
-
-	@Override
-	public boolean isUsable(EntityPlayer player) {
-		return true;
 	}
 
 	@Override
@@ -134,14 +128,14 @@ public class OverflowInventory implements CompatInventory {
 		for (int i = 0; i < list.tagCount(); ++i) {
 			NBTTagCompound stackTag = list.getCompoundTagAt(i);
 			int slot = stackTag.getByte("Slot") & 255;
-			this.setInventorySlotContents(slot, ItemStackTools.loadFromNBT(stackTag));
+			this.setInventorySlotContents(slot, new ItemStack(stackTag));
 		}
 	}
 
 	public void writeToNBT(NBTTagCompound compound) {
 		NBTTagList list = new NBTTagList();
 		for (int i = 0; i < this.getSizeInventory(); ++i) {
-			if (!ItemStackTools.isEmpty(this.getStackInSlot(i))) {
+			if (!this.getStackInSlot(i).isEmpty()) {
 				NBTTagCompound stackTag = new NBTTagCompound();
 				stackTag.setByte("Slot", (byte) i);
 				this.getStackInSlot(i).writeToNBT(stackTag);
@@ -149,5 +143,16 @@ public class OverflowInventory implements CompatInventory {
 			}
 		}
 		compound.setTag("Items", list);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return stackInv.isEmpty();
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
