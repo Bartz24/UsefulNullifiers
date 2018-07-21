@@ -1,19 +1,15 @@
 package com.bartz24.usefulnullifiers;
 
-import org.apache.logging.log4j.Logger;
-
 import com.bartz24.usefulnullifiers.proxy.CommonProxy;
-import com.bartz24.usefulnullifiers.registry.ModBlocks;
-import com.bartz24.usefulnullifiers.registry.ModItems;
-
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import org.apache.logging.log4j.Logger;
 
-@Mod(modid = References.ModID, name = References.ModName, useMetadata = true, guiFactory = "com.bartz24.usefulnullifiers.config.ConfigGuiFactory")
+@Mod(modid = References.ModID, name = References.ModName, useMetadata = true)
 public class UsefulNullifiers {
 	@SidedProxy(clientSide = "com.bartz24.usefulnullifiers.proxy.ClientProxy", serverSide = "com.bartz24.usefulnullifiers.proxy.ServerProxy")
 	public static CommonProxy proxy;

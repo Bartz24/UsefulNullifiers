@@ -2,7 +2,7 @@ package com.bartz24.usefulnullifiers.items;
 
 import com.bartz24.usefulnullifiers.References;
 import com.bartz24.usefulnullifiers.UsefulNullifiers;
-import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
+import com.bartz24.usefulnullifiers.inventory.AIONInventory;
 import com.bartz24.usefulnullifiers.registry.ModCreativeTabs;
 import com.bartz24.usefulnullifiers.registry.ModGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,11 +25,11 @@ import org.lwjgl.input.Keyboard;
 import java.util.List;
 
 @Mod.EventBusSubscriber
-public class OverflowNullifierItem extends Item {
+public class AIONItem extends Item {
 
     private static boolean cancelEquipSound = false;
 
-    public OverflowNullifierItem(String unlocalizedName, String registryName) {
+    public AIONItem(String unlocalizedName, String registryName) {
         this.setUnlocalizedName(References.ModID + "." + unlocalizedName);
         setRegistryName(registryName);
         this.setCreativeTab(ModCreativeTabs.tabMain);
@@ -39,13 +39,13 @@ public class OverflowNullifierItem extends Item {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack itemStack = player.getHeldItem(hand);
-        OverflowInventory inv = new OverflowInventory(itemStack);
-        ItemStack invStack = inv.getStackInSlot(0);
+        AIONInventory inv = new AIONInventory(itemStack);
+        ItemStack invStack = inv.getStackInSlot(1);
 
         RayTraceResult rayTrace = this.rayTrace(world, player, true);
         if (rayTrace == null || invStack.isEmpty() || world.isAirBlock(rayTrace.getBlockPos())) {
             if (!world.isRemote) {
-                player.openGui(UsefulNullifiers.instance, ModGuiHandler.OverflowGUI, world,
+                player.openGui(UsefulNullifiers.instance, ModGuiHandler.AIONGUI, world,
                         player.inventory.currentItem, 0, 0);
             }
         }
@@ -54,8 +54,8 @@ public class OverflowNullifierItem extends Item {
 
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack itemStack = player.getHeldItem(hand);
-        OverflowInventory inv = new OverflowInventory(itemStack);
-        ItemStack invStack = inv.getStackInSlot(0);
+        AIONInventory inv = new AIONInventory(itemStack);
+        ItemStack invStack = inv.getStackInSlot(1);
 
         if (!invStack.isEmpty()) {
 
@@ -63,7 +63,7 @@ public class OverflowNullifierItem extends Item {
             player.setHeldItem(hand, invStack);
             EnumActionResult result = invStack.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
             invStack = player.getHeldItem(hand);
-            inv.setInventorySlotContents(0, invStack);
+            inv.setInventorySlotContents(1, invStack);
             inv.markDirty();
             player.setHeldItem(hand, itemStack);
             cancelEquipSound = false;
@@ -74,18 +74,22 @@ public class OverflowNullifierItem extends Item {
 
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List list, boolean par4) {
 
-        list.add(TextFormatting.BLUE + "Similar to a dev/null/");
+        list.add(TextFormatting.BLUE + "Has function similar to a dev/null/");
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
             list.add(TextFormatting.DARK_GREEN
+                    + "Destroys items put into it.");
+            list.add(TextFormatting.DARK_GREEN
                     + "Places blocks stored and destroys any extra items picked up of the same type.");
+            list.add(TextFormatting.DARK_GREEN
+                    + "Empties fluid containers put into it.");
         } else
             list.add(TextFormatting.DARK_GREEN + "Hold LSHIFT for description.");
     }
 
     public String getItemStackDisplayName(ItemStack stack) {
-        OverflowInventory inv = new OverflowInventory(stack);
-        String name = TextFormatting.GREEN + (inv.getStackInSlot(0).isEmpty() ? "None"
-                : inv.getStackInSlot(0).getDisplayName() + " x " + inv.getStackInSlot(0).getCount());
+        AIONInventory inv = new AIONInventory(stack);
+        String name = TextFormatting.GREEN + (inv.getStackInSlot(1).isEmpty() ? "None"
+                : inv.getStackInSlot(1).getDisplayName() + " x " + inv.getStackInSlot(1).getCount());
         return super.getItemStackDisplayName(stack) + " (" + name + TextFormatting.WHITE + ")";
     }
 

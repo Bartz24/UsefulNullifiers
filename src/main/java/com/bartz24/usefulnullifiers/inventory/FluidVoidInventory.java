@@ -99,7 +99,7 @@ public class FluidVoidInventory implements IInventory {
 		if (!stack.isEmpty()) {
 			FluidStack fluid = FluidUtil.getFluidContained(stack);
 			if (fluid != null) {
-				FluidActionResult result = FluidUtil.tryEmptyContainer(stack, new FluidTank(Integer.MAX_VALUE), 1000,
+				FluidActionResult result = FluidUtil.tryEmptyContainer(stack, new FluidTank(Integer.MAX_VALUE), Integer.MAX_VALUE,
 						null, true);
 				if (result.success)
 					emptyContainer = result.getResult();					

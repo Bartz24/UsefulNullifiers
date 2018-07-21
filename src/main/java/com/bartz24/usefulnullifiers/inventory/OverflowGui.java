@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -24,6 +25,13 @@ public class OverflowGui extends GuiContainer {
 		this.ySize = 166;
 	}
 
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	{
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.renderHoveredToolTip(mouseX, mouseY);
+	}
+
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -34,11 +42,11 @@ public class OverflowGui extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		ItemStack stack = inv.getStackInSlot(0);
-		Block block = stack.isEmpty() ? null : Block.getBlockFromItem(stack.getItem());
+		Block block = stack.isEmpty() ? Blocks.AIR : Block.getBlockFromItem(stack.getItem());
 		String s = "Overflow Nullifier";
 		this.fontRenderer.drawString(s, 88 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
 		this.fontRenderer.drawString(this.player.inventory.getDisplayName().getUnformattedText(), 8, 72, 4210752);
-		String s2 = (block == null ? "Not Placeable" : "Placeable");
+		String s2 = (block == Blocks.AIR ? "Not Placeable" : "Placeable");
 		this.fontRenderer.drawString(s2, this.xSize / 2 - this.fontRenderer.getStringWidth(s2) / 2, 40, 4210752);
 	}
 }

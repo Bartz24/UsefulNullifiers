@@ -1,14 +1,7 @@
 package com.bartz24.usefulnullifiers.registry;
 
-import com.bartz24.usefulnullifiers.inventory.FluidVoidContainer;
-import com.bartz24.usefulnullifiers.inventory.FluidVoidGui;
-import com.bartz24.usefulnullifiers.inventory.FluidVoidInventory;
-import com.bartz24.usefulnullifiers.inventory.OverflowContainer;
-import com.bartz24.usefulnullifiers.inventory.OverflowGui;
-import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
-import com.bartz24.usefulnullifiers.inventory.VoidContainer;
-import com.bartz24.usefulnullifiers.inventory.VoidGui;
-import com.bartz24.usefulnullifiers.inventory.VoidInventory;
+import com.bartz24.usefulnullifiers.inventory.*;
+import com.bartz24.usefulnullifiers.items.AIONItem;
 import com.bartz24.usefulnullifiers.items.OverflowNullifierItem;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +14,7 @@ public class ModGuiHandler implements IGuiHandler
 	public static final int OverflowGUI = 0;
 	public static final int VoidGUI = 1;
 	public static final int FluidVoidGUI = 2;
+	public static final int AIONGUI = 3;
 
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world,
@@ -32,6 +26,8 @@ public class ModGuiHandler implements IGuiHandler
 			return new VoidContainer(player, new VoidInventory(), x);
 		else if (id == FluidVoidGUI)
 			return new FluidVoidContainer(player, new FluidVoidInventory(), x);
+		else if (id == AIONGUI)
+			return new AIONContainer(player, new AIONInventory(getAIONStack(player)), x);
 		return null;
 	}
 
@@ -45,6 +41,8 @@ public class ModGuiHandler implements IGuiHandler
 			return new VoidGui(player, new VoidInventory());
 		else if (id == FluidVoidGUI)
 			return new FluidVoidGui(player, new FluidVoidInventory());
+		else if (id == AIONGUI)
+			return new AIONGui(player, new AIONInventory(getAIONStack(player)));
 
 		return null;
 	}
@@ -57,4 +55,13 @@ public class ModGuiHandler implements IGuiHandler
             return p.getHeldItemOffhand();
         }
     }
+
+	static ItemStack getAIONStack(EntityPlayer p) {
+		if (!p.getHeldItemMainhand().isEmpty()
+				&& p.getHeldItemMainhand().getItem() instanceof AIONItem) {
+			return p.getHeldItemMainhand();
+		} else {
+			return p.getHeldItemOffhand();
+		}
+	}
 }

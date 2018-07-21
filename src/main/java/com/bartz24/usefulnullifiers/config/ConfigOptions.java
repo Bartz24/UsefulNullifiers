@@ -1,53 +1,37 @@
 package com.bartz24.usefulnullifiers.config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.bartz24.usefulnullifiers.References;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
+@Config(modid = References.ModID)
+@Mod.EventBusSubscriber
 public class ConfigOptions
 {
-	public static Configuration config;
-	public static boolean enableOverflow;
-	public static boolean enablePortVoid;
-	public static boolean enablePortFluidVoid;
-	public static boolean enableVoid;
-	public static boolean enableFluidVoid;
-	public static boolean enableEnergyVoid;
-	
-	public static List<IConfigElement> getConfigElements()
-	{
-		List<IConfigElement> list = new ArrayList<IConfigElement>();
+	@Config.Comment("Add the recipe for the Portable Overflow Nullifier")
+	public static boolean enableOverflow = true;
+	@Config.Comment("Add the recipe for the Portable Item Nullifier")
+	public static boolean enablePortVoid = true;
+	@Config.Comment("Add the recipe for the Portable Fluid Nullifier")
+	public static boolean enablePortFluidVoid = true;
+	@Config.Comment("Add the recipe for the Portable AION")
+	public static boolean enablePortAION = true;
+	@Config.Comment("Add the recipe for the Item Nullifier")
+	public static boolean enableVoid = true;
+	@Config.Comment("Add the recipe for the Fluid Nullifier")
+	public static boolean enableFluidVoid = true;
+	@Config.Comment("Add the recipe for the Energy Nullifier")
+	public static boolean enableEnergyVoid = true;
+	@Config.Comment("Add the recipe for the AION")
+	public static boolean enableAION = true;
 
-		list.addAll(new ConfigElement(
-				config.getCategory(Configuration.CATEGORY_GENERAL))
-						.getChildElements());
-
-		return list;
-	}
-
-	public static void loadConfigThenSave(FMLPreInitializationEvent e)
-	{
-		config = new Configuration(e.getSuggestedConfigurationFile());
-
-		config.load();
-		enableOverflow = config.get(Configuration.CATEGORY_GENERAL, "Enable Portable Overflow Nullifier (recipe)", true)
-				.getBoolean(true);
-		enablePortVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Portable Item Nullifier (recipe)", true)
-				.getBoolean(true);
-		enablePortFluidVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Portable Fluid Nullifier (recipe)", true)
-				.getBoolean(true);
-		enableVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Item Nullifier (recipe)", true)
-				.getBoolean(true);
-		enableFluidVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Fluid Nullifier (recipe)", true)
-				.getBoolean(true);
-		enableEnergyVoid = config.get(Configuration.CATEGORY_GENERAL, "Enable Energy Nullifier (recipe)", true)
-				.getBoolean(true);
-		config.save();
+	@SubscribeEvent
+	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+		if (event.getModID().equals(References.ModID)) {
+			ConfigManager.sync(References.ModID, Config.Type.INSTANCE);
+		}
 	}
 }

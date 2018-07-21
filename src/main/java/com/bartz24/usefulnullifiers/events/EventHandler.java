@@ -1,5 +1,6 @@
 package com.bartz24.usefulnullifiers.events;
 
+import com.bartz24.usefulnullifiers.inventory.AIONInventory;
 import com.bartz24.usefulnullifiers.inventory.OverflowInventory;
 import com.bartz24.usefulnullifiers.registry.ModItems;
 
@@ -24,6 +25,12 @@ public class EventHandler {
 			if (!stackInv.isEmpty() && stackInv.getItem() == ModItems.overflowNullifier) {
 				OverflowInventory inv = new OverflowInventory(stackInv);
 				stack = fillOverflowInventory(inv, stack);
+				inv.markDirty();
+			}
+
+			if (!stackInv.isEmpty() && stackInv.getItem() == ModItems.aionNullifier) {
+				AIONInventory inv = new AIONInventory(stackInv);
+				stack = fillAIONInventory(inv, stack);
 				inv.markDirty();
 			}
 		}
@@ -69,6 +76,20 @@ public class EventHandler {
 					stack.setCount(0);
 				}
 			}
+		}
+		return stack;
+
+	}
+
+	public static ItemStack fillAIONInventory(IInventory inv, ItemStack stack) {
+		if (inv != null) {
+				ItemStack inside = inv.getStackInSlot(1);
+				if (stack.isEmpty() || stack.getCount() <= 0)
+					return ItemStack.EMPTY;
+				if (canStacksMerge(inside, stack)) {
+					mergeStacks(stack, inside, true);
+					stack.setCount(0);
+				}
 		}
 		return stack;
 
